@@ -1,0 +1,37 @@
+django 学习笔记
+1. 创建django项目
+命令行下：
+django-admin  startproject project_name
+
+2. 运行django项目
+命令行下：
+python manage.py runserver 0.0.0.0:8000
+
+3. django项目目录
+|--project_name    ##项目目录
+|   |-- __init__.py   ##空文件，python初始化文件
+|   |-- setting.py    ##django项目的配置文件
+|   |-- urls.py      ##路由配置文件
+|   |-- usgi.py   ##usgi 接口入口
+|--manage.py      ##配置管理工具
+
+4. 创建app
+命令行下：
+django-admin startapp app_name
+
+5. app目录
+|--app_name    ##app目录
+|   |-- __init__.py   ##空文件，python初始化文件
+|   |-- admin.py    ##配置文件
+|   |-- models.py      ##数据库配置文件
+|   |-- tests.py   ## 
+|   |-- views.py
+
+
+6. 创建项目表结构
+python manage.py migrate   # 创建项目表结构
+
+python manage.py makemigrations app_name  # 让 Django 知道我们在我们的模型有一些变更
+
+python manage.py migrate app_name   # 创建app表结构
+
