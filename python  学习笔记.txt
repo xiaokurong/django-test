@@ -1,0 +1,475 @@
+python  学习笔记
+1. 特殊计算
+	a +=2  等价于 a = a+2 ;
+	a -=2  等价于 a = a—2 ；
+	5 // 2  意思 5整除2 结果 = 2  
+	9 % 5   意思 9除以5 余数 = 4
+	3 ** 2  意思 3的2次方 = 9
+	divmod（9，5） 同时取得余数和商 （1，4），注结果是元组。
+
+2. 多进制表示
+	二进制： 0b10    =  十进制 2
+	八进制： 0o10    =  十进制 8
+	十六进制：0x10   =  十进制 16
+	
+3. 类型转换
+
+	int  转换为整数
+		int（‘-11’） =  11
+		int (True)   =  1
+		int (False)  =  0
+		int (12.23)  =  12
+		
+	混合运算
+	4+2.0  = 6.0   ##整数和浮点数混合是转换为浮点数
+	True + 2 = 3   ##布尔型和整数或浮点数混合是转换为整数或浮点数
+	
+	float  转换为浮点数
+		float (29)   = 29.0
+		float (True) = 1.0
+		
+	注：python3 不再区分long 整数和 int整数 ，只有int整数，且范围不限。
+
+4. 字符串
+	用单引号‘’或双引号“”包裹起来的就是字符串，不管使用哪种，python交互式输出都是单引号‘’输出字符串。
+	‘‘‘ 三引号是创建多行字符串使用。
+		‘‘‘ first line；
+		second line；
+		third line。’’’
+		
+	‘’  空字符串
+	
+	str 转换为字符串
+		str(23.4)  = '23.4'
+		str(1.0e4) = '10000'
+		str(True)  = 'True'
+		
+	转义符：
+		\n 换行符
+		\t 制表符
+		\' 单引号
+		\" 双引号
+		\\ 反斜线
+		
+	字符串拼接：字符串之间使用加号+ 进行拼接；或者一个字符串跟着另一个字符串
+		"abc" + "efg"
+		"abc" "efg"
+		
+	字符串复制使用*号
+		'abc’*3  =  abc abc abc
+		
+	使用[] 提取字符； 在字符串名后面加[],并在括号中添加偏移量，可以提取指定位置的字符。第一个字符是0，下一个是1，最后一个可以用-1表示。
+		letter=‘abcdefg’
+		letter[2] = c
+		如果偏移量超过字符串长度，会出现异常。
+		
+	注：python中字符串是不能改变的。如果需要改变只能根据原有的字符串创建新的字符串
+	
+	字符串分片[start:end:step]
+		[:] : 提取从开头到结尾的整个字符串
+		[start:] ：从start提取到结尾
+		[:end] ： 从开头提取到end-1
+		[start:end] ：从start提取到end-1
+		[start:end:step] ：从start提取到end-1，每step取一个
+		例如：
+			letter=‘abcdefg’
+			letter[:] = ‘abcdefg’
+			letter[1:] = ‘bcdefg’
+			letter[:-1] = ‘abcdef’
+			letter[1:3] = ‘bc’
+			letter[::2] = ‘aceg’
+			letter[::-1] = ‘gfedcba’
+			letter[-3:] = ‘efg’
+		在分片中，小于起始位置的偏移量会被当作0，大于终止位置的偏移量会被当作-1.
+			letter[-10:]=‘abcdefg’
+			letter[:10] = ‘abcdefg’
+			
+5. 获得字符串长度len()
+	letter=‘abcdefg’
+	len(letter=‘abcdefg’)  = 7
+	
+6. 字符串函数
+	split(args) 根据分隔符分割字符串,以列表的形式输出结果。如果不指定分隔符，那么split() 将默认使用空白字符——换行符、空格、制表符。
+		letters =‘abc,def,ghi’
+		letters.split(',')  => ['abc','def','ghi']
+	
+	join(args) 将包含若干子串的列表分解，并将这些子串合成一个完整的大的字符串,并用连接符连接子串。
+		letter_list=['abc','def','ghi']
+		':'.join(letter_list) = 'abc:def:ghi'
+	
+	startswith(args) 判断字符串是否以给定的参数开始。
+		letters =‘abc,def,ghi’
+		letters.startswith('abc') => True
+		
+	endswith(args) 判断字符串是否以给定的参数结尾。
+		letters =‘abc,def,ghi’
+		letters.endswith('ghi)  => True
+		
+	find(args) 在字符串中查找第一个给定参数的位置偏移量。
+		letters =‘abc,def,ghi’
+		letters.find('d') => 4
+		
+	rfind(args) 在字符串中查找最后一个给定参数的位置偏移量
+		letters =‘abc,def,ghi’
+		letters.rfind('e') => 5
+		
+	count(args) 在字符串中查找给定参数的数量
+		letters =‘abc,def,ghi,def’
+		letters.count('d') = 2
+		
+	isalnum() 判断字符串是否全部都是字母和数字
+		letters =‘abc,def,ghi’
+		letters.isalnum()  => Fasle
+		
+	strip(args) 将字符串尾部的给定参数删除。
+		letters = 'abcdef...'
+		letters.strip('.')  => 'abcdef'
+		
+	capitalize() 将字符串首字母变成大写
+		letters =‘abc,def,ghi’
+		letters.capitalize() => 'Abc,def,ghi'
+		
+	title() 将字符串所有单词开头字母变成大写
+		letters =‘abc,def,ghi’
+		letters.title() => 'Abc,Def,Ghi'
+		
+	upper() 将字符串所有字母变成大写
+		letters =‘abc,def,ghi’
+		letters.upper() => 'ABC,DEF,GHI'
+		
+	lower() 将字符串所有字母变成小写
+		letters =‘Abc,Def,ghi’
+		letters.lower() => 'abc,def,ghi'
+		
+	swapcase() 将字符串所有字母的大小写转换
+		letters =‘Abc,Def,ghi’
+		letters.swapcase() => 'aBC,dEF,GHI'
+		
+	center(args) 将字符串在指定的空间中居中排列
+		letters =‘Abc,Def,ghi’
+		letters.center(30) =>  ‘        Abc,Def,ghi        ’
+		
+	ljust(args) 将字符串在指定的空间中左对齐
+		letters =‘Abc,Def,ghi’
+		letters.ljust(30) =>  'Abc,Def,ghi                  '
+		
+	rjust(args) 将字符串在指定的空间中右对齐
+		letters =‘Abc,Def,ghi’
+		letters.rjust(30) =>  ‘                   Abc,Def,ghi’
+		
+	replace(args1,args2,args3) 将字符串中的字符替换成新字符，并在限定的次数内。args1是被替换的字符，args2是用于替换的新字符，args3是替换的次数，如果不指定，仅替换第一个。
+		letters =‘abc,def,ghi,def’
+		letters.replace('d','dd',3) => 'abc,ddef,ghi,ddef'
+7. 列表
+	使用[]或list（）创建列表，列表有零个或多个元素组成，元素之间用“，”隔开。
+		empty_list =[]    another_empty_list = list()
+	
+	list() 将其他类型转换为列表
+		list（‘abc’）  => ['a','b','c']
+		
+	使用偏移量[offset]获取列表元素
+		a_list=['abc','efg','hij']
+		a_list[0]  => 'abc'
+		a_list[-1]  => 'hij'
+		a_list[0][1] => 'b'
+		
+	使用分片截取列表
+		a_list=['abc','efg','hij']
+		a_list[1:]  => ['efg','hij']
+	
+	append() 为列表末尾添加元素
+		a_list=['abc','efg','hij']
+		a_list.append('xyz')  =>  a_list=['abc','efg','hij'，'xyz']
+		
+	extend() 或 += 合并列表
+		a_list=['abc','efg','hij']
+		b_list=['lmn','opq','xyz']
+		a_list.extend(b_list) => a_list=['abc','efg','hij','lmn','opq','xyz']
+		a_list +=b_list 等同上面
+		
+	insert() 在列表指定位置插入元素
+		a_list=['abc','efg','hij']
+		a_list.insert(0,'xyz') => a_list=['xyz','abc','efg','hij']
+		a_list.insert(10,'xyz') =>a_list=['abc','efg','hij','xyz'] 超过指定位置插入元素，不会报错。
+		
+	del  删除列表指定位置元素,del语句是python语句，不是列表方法。
+		a_list=['abc','efg','hij']
+		del a_list[1]  => a_list=['abc','efg']
+		
+	remove() 删除列表指定内容
+		a_list=['abc','efg','hij']
+		a_list.remove('efg') => a_list=['abc','hij']
+		
+	pop() 获取并删除指定位置的元素，如果不添加参数，默认删除最后一个元素。
+		a_list=['abc','efg','hij']
+		a_list.pop(0) => a_list=['efg','hij']
+		a_list.pop() => a_list=['efg']
+		
+	FIFO  指先入先出的队列，先进入的元素先处理，后进入的后处理。append() pop(0) 组成FIFO队列。
+	
+	LIFO 指后入先出的队列，这种数据结构也称为栈。append() pop() 组成LIFO队列。
+	
+	index() 查询指定元素在列表的位置。
+		a_list=['abc','efg','hij']
+		a_list.index('abc') => 0
+		
+	in 判断元素知否在列表中
+		a_list=['abc','efg','hij']
+		'abc' in a_list  => True
+	
+	count() 记录元素在列表中出现的次数
+		a_list=['abc','efg','hij']
+		a_list.count('abc')  => 1
+		
+	join()字符串方法，可以将列表合成一个字符串。
+		a_list=['abc','efg','hij']
+		','.join(a_list) => 'abc,efg,hij'
+		
+	sorted() 通用函数，会将列表的内容排序并返回的排序后列表副本，如果列表都是数字，会按从小到大的顺序排列，如果列表都是字符串，会按字母表顺序排序。
+		a_list=['efg','hij','abc']
+		sorted(a_list)  =>  ['abc','efg','hij']
+		
+	sort() 列表方法，会修改列表的顺序。如果列表都是数字，会按从小到大的顺序排列，如果列表都是字符串，会按字母表顺序排序。
+		a_list=['efg','hij','abc']
+		a_list.sort()  => a_list=['abc','efg','hij']
+		
+	len() 返回列表的长度。
+		a_list=['abc','efg','hij']
+		a_list.len() => 3
+		
+	copy() 复制列表
+		a_list=['abc','efg','hij']
+		b_list=a_list.copy()  => b_list=['abc','efg','hij']
+		复制列表的其他方法
+		b_list=list(a_list)  => b_list=['abc','efg','hij']
+		b_list=a_list[:] => b_list=['abc','efg','hij']
+	
+8. 元组
+	使用（）创建元组，创建包含一个或多个元素的元组时，每一个元组后面都要跟‘，’，即使一个元素，也要跟‘，’，多个元素时，最后一个‘，’可以省略。
+		empty_tuple =()
+		one_tuple = 'abc',
+		two_tuple = 'abc','cdf'
+		three_tuple = ('abc','cdf','ghi')
+		
+	元组解包，将元组赋值给多个变量。
+		a_tuple = ('abc','cdf','ghi')
+		a,b,c=a_tuple  ==> a='abc',b='cdf',c='ghi'
+		
+	利用元组给变量的值互换
+		a='abc'
+		b='cdf'
+		a,b=b,a  => a='cdf',b='abc'
+		
+	tuple() 用其他类型的数据创建元组
+		a_list=['abc','efg','hij']
+		tuple(a_list)  => (abc','efg','hij')
+		
+	元组和列表的区别
+		元组占用空间小
+		元组的值无法修改
+		元组可以用作字典的键
+		命名元组可以作为对象的替代  ？？？？？？？？？
+		函数的参数是以元组的形式传递
+		
+9. 字典
+	由键和值组成的一对数据，其中键是不可变类型数据，如字符串，元组，整形，浮点型等。
+	
+	创建字典
+		empty_dict = {}   #空字典
+	
+	dict()转换字典函数：适合包含双值子序列的序列使用此函数。
+		list1= [['a','b'],['c','d']]
+		dict(list1)  =>  {'a':'b','c':'d'}   ##字典中元素的顺序是无关紧要的。
+		
+	使用[key]添加字典元素或修改元素
+		dict1 = {'a':'b','c':'d'} 
+		dict1['e'] = 'f'   =>dict1 = {'a':'b','c':'d','e':'f'}  ##添加新的元素
+		dict1['a'] = 'h'  =>{'a':'h','c':'d','e':'f'}  ##修改现有的元素
+		
+	使用update()合并字典
+		dict1={'a':'b','c':'d',}
+		dict2={'e':'f','h':'j'}
+		dict1.update(dict2) ==> dict1={'a':'b','c':'d','e':'f','h':'j'}
+		
+	del 删除指定键的元素
+		dict1={'a':'b','c':'d',}
+		del dict1['a]  => dict1={'c':'d',}
+	
+	clear() 删除所有元素
+		dict1={'a':'b','c':'d',}
+		dict1.clear()  => dict1={}
+	
+	in 判断是否存在指定的键
+		dict1={'a':'b','c':'d',}
+		'a' in dict1 => True
+		
+	使用[key]获取键值
+		dict1={'a':'b','c':'d',}
+		dict1['a']  => 'b'   ##如果没有给定的键，则会报错。
+		
+	使用get()获取指定的键值
+		dict1={'a':'b','c':'d',}
+		dict1.get('a','Null key') 
+			=> 'b'   ##键值存在的话，获得字典中的值。
+			=> 'Null key'  ##键值不存在的话，获取函数中的可选值。
+			=> ''     ##如果没有指定可选值，且键值也不存在，则返回空。
+		
+	keys() 获取所有的键
+		dict1={'a':'b','c':'d',}
+		dict1.keys()  =>  dict_keys(['a','b'])  ##键的迭代
+		list(dict1.keys())  => ['a','b'] 
+		
+	values()获取所有值
+		dict1={'a':'b','c':'d',}
+		dict1.values()  => dict_values(['b','d'])
+		list(dict1.values())  => ['b','d']
+	
+	items()获取所有键值对
+		dict1={'a':'b','c':'d',}
+		dict1.items()  => dict_items([('a','b'),('c','d')])
+		list(dict1.items()) => [('a','b'),('c','d')]
+		
+	copy() 复制字典
+		dict1={'a':'b','c':'d',}
+		dict2= dict1.copy()  => dict2={'a':'b','c':'d',}
+		
+10. 集合
+	集合就像舍弃了值，仅剩下键的字典一样。键与键之间不能重复。
+	
+	set() 创建集合
+		empty_set = set() ##空集合的显示是“set()”
+		
+	使用set()将其他类型转换为集合
+		set('letter')  => {'l','e','t','r'}  ##注意重复的字母都删除了。
+		set({'a':'b','c':'d',}) => {'a','c'} ##当字典作为参数传入set函数时，只有键会被使用。
+		
+	使用in测试值是否存在
+		set1 = {'a','b','c'}
+		'a' in set1  => True
+	
+	集合的交集&
+		set1 = {'a','b','c'}
+		set2 = {'c','d','e'}
+		set1&set2 => {'c'}
+		
+	集合的函数intersection()获得集合的交集
+		set1 = {'a','b','c'}
+		set2 = {'c','d','e'}
+		set1.intersection(set2) => {'c'}
+		
+	集合的并集，使用 | 或 union()函数
+		set1 = {'a','b','c'}
+		set2 = {'c','d','e'}
+		set1 | set2 => {'a','b','c','d','e'}
+		set1.union(set2) =>{'a','b','c','d','e'}
+	集合的差集（出现在第一个集合而不出现在第二个集合中），使用 - 或者 difference()函数。
+		set1 = {'a','b','c'}
+		set2 = {'c','d','e'}
+		set1 - set2 => ｛'a','b'｝
+		
+	集合的异或集（仅在两个集合中出现一次），使用^或者symmetric_difference()函数。
+		set1 = {'a','b','c'}
+		set2 = {'c','d','e'}
+		set1^set2 => ｛'a','b'，'d','e'｝
+		set1.symmetric_difference(set2) =>｛'a','b'，'d','e'｝
+		
+	集合的子集，使用<= 或者issubset()判断一个集合是否是另一个集合的子集（第一个集合的所有元素都出现在第二个集合中）
+		set1 = {'a','b','c'}
+		set2 = {'c','d','e'}
+		set1 <= set2   ==> False
+		set1 <= set1   ==> True  #一个集合是自身的子集
+		
+	集合的真子集，使用 < ,当第二个集合包含所有第一个集合的元素，仍包含其他的元素时，称为真子集。
+		set1 = {'a','b','c'}
+		set2 = {'a','b','c','d','e'}
+		set1 < set2  ==> True
+		set1 < set1  ==> False  ## 集合不是自身的真子集
+	
+	集合的超集（第二个集合的所有元素都出现在一个集合中），使用>= 或 issuperset()函数
+		set2 = {'a','b','c'}
+		set1 = {'a','b','c','d','e'}
+		set1 >= set2 ==> True
+		set1.issuperset(set2) ==> True
+		set2 >= set2  ==> True ##一个集合是本身的超集。
+		
+	集合的真超集(第一个集合包含第二个集合的所有元素，还包含其他元素)，使用>
+		set2 = {'a','b','c'}
+		set1 = {'a','b','c','d','e'}
+		set1 > set2  ==> True
+		set1 > set1  ==> False  ##集合不是自身的真超集
+		
+11. 代码结构
+	
+	代码的注释，使用#
+		print ('test')  ##打印‘test'
+	
+	代码的跨行连接，使用\
+		alphabet = 'abcd' + \
+			'efgh' + \
+			'ijkl'  => 'abcdefghijkl'
+	
+	if,elif,else 进行比较
+		if express :
+			doing
+		elif:
+			doing
+		else:
+			doing
+			
+	假值，以下情况被认为是false：
+		布尔		false
+		null类型	none
+		整形		0
+		浮点型		0.0
+		空字符串	''
+		空列表		[]
+		空元组		()
+		空字典		{}
+		空集合		set()
+	
+	使用while进行循环
+		count = 1
+		while count<=5:
+			print(count)
+			count +=1
+		==> 1 2 3 4 5
+	
+	使用break跳出循环
+	使用continue跳到循环开始
+	
+12. 迭代器
+	for 迭代器，在未知数据结构长度的情况下遍历数据结构
+		for i in 'abcdef':
+			print(i)
+		==>a
+		==>b
+		==>c		
+		==>d
+		==>e
+		==>f
+	zip（）对多个序列进行迭代，如果序列长度不等，则迭代到最短队列为止。
+		days=['monday','tuesday','wedensday']
+		fruits=['banana','grape','apple']
+		numbers=[1,2,3,4]
+		for a,b,c in zip(days,fruits,numbers):
+			print(a,b,c)
+			
+		==>monday banana 1
+		==>tuesday grape 2
+		==>wednesday apple 3
+		
+	range()生成自然数序列，range（start，end，step）使用方法同切片
+		for i in range(0,3):
+			print(i)
+		==>0
+		==>1
+		==>2
+		
+13. 推导式
+	推导式从一个或多个迭代器快速的创建数据结构的方法。使用方法 expression for item in iterable if condition
+		number_list=[num*num for num in range(1,5)]
+		==>[1,4,9,16]
+		number_list=[num*num for num in range(1,5) if num%2==0]
+		==>[4,16]
+		number_list=[(x,y) for x in range(1,5) for y in range(1,5,-1)]
+		
