@@ -1,4 +1,4 @@
-django 学习笔记
+﻿django 学习笔记
 1. 创建django项目
 命令行下：
 django-admin  startproject project_name
@@ -35,3 +35,5 @@ python manage.py makemigrations app_name  # 让 Django 知道我们在我们的�
 
 python manage.py migrate app_name   # 创建app表结构
 
+
+7.
