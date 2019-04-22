@@ -36,4 +36,4 @@ python manage.py makemigrations app_name  # 让 Django 知道我们在我们的�
 python manage.py migrate app_name   # 创建app表结构
 
 
-7.
+7. django 2.1 及以上版本不再支持mysql5.5及以下版本数据库。
