@@ -35,5 +35,44 @@ python manage.py makemigrations app_name  # 让 Django 知道我们在我们的�
 
 python manage.py migrate app_name   # 创建app表结构
 
+python manage.py flush  #清空数据库
 
-7. django 2.1 及以上版本不再支持mysql5.5及以下版本数据库。
+7. django 数据库支持 
+django 2.1 及以上版本不再支持mysql5.5及以下版本数据库。
+
+8. django版本选择
+Django 1.5.x 支持 Python 2.6.5 Python 2.7, Python 3.2 和 3.3.
+
+Django 1.6.x 支持 Python 2.6.X, 2.7.X, 3.2.X 和 3.3.X
+
+Django 1.7.x 支持 Python 2.7, 3.2, 3.3, 和 3.4 （注意：Python 2.6 不支持了）
+
+Django 1.8.x 支持 Python 2.7, 3.2, 3.3, 3.4 和 3.5.  （长期支持版本 LTS)
+
+Django 1.9.x 支持 Python 2.7, 3.4 和 3.5. 不支持 3.3 了
+
+Django 1.10.x 支持 Python 2.7, 3.4 和 3.5. 
+
+Django 1.11.x 支持 Python 2.7, 3.4, 3.5 和 3.6（长期支持版本 LTS) 最后一个支持 Python 2.7 的版本
+
+Django 2.0.x 支持 Python 3.4, 3.5 和 3.6 （注意，不再支持 Python 2）
+
+9. 创建超级管理员
+python manage.py createsuperuser
+
+修改用户密码
+python manage.py changepasswod username
+
+
+10. 导出数据和导入数据
+python manage.py dumpdata appname > appname.json #导出
+python manage.py loaddata appname.json  #导入
+
+11. django shell 命令行
+python manage.py shell    #类似python命令行，但是包含了django的库
+
+12. 数据库命令行
+python manage.py dbshell
+
+
+

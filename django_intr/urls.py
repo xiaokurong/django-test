@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('blog/', views.hello_world),
     path('hello/',views.hello),
+    path('',testmodel.views.index),
     url(r'^$',views.index),
     url(r'^testdb$',testdb.testdb),
 ]
