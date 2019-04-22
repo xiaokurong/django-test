@@ -17,6 +17,9 @@ from django.contrib import admin
 from django.urls import path,include
 from . import  views,testdb
 from django.conf.urls import url
+import sys
+sys.path.append('G:\\python_source\\django_test\\django_intr')
+from testmodel import views as test_views
 
 
 
@@ -25,7 +28,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('blog/', views.hello_world),
     path('hello/',views.hello),
-    path('',testmodel.views.index),
+    path('',test_views.index),
     url(r'^$',views.index),
     url(r'^testdb$',testdb.testdb),
 ]
