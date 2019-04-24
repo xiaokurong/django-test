@@ -35,6 +35,8 @@ python manage.py makemigrations app_name  # 让 Django 知道我们在我们的�
 
 python manage.py migrate app_name   # 创建app表结构
 
+python manage.py sqlmigrate blog 0001  ##查看创建表的sql语句
+
 python manage.py flush  #清空数据库
 
 7. django 数据库支持 
