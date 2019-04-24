@@ -26,9 +26,9 @@ from testmodel import views as test_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('blog/', views.hello_world),
     path('hello/',views.hello),
     path('',test_views.index),
     url(r'^$',views.index),
     url(r'^testdb$',testdb.testdb),
+    url(r'^blog/',include('blog.urls',namespace='blog',app_name='blog')),
 ]
