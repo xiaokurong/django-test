@@ -76,5 +76,5 @@ python manage.py shell    #类似python命令行，但是包含了django的库
 12. 数据库命令行
 python manage.py dbshell
 
-
+13.
 
