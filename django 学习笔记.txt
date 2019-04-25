@@ -76,5 +76,31 @@ python manage.py shell    #类似python命令行，但是包含了django的库
 12. 数据库命令行
 python manage.py dbshell
 
-13.
+13. django模板标签
+
+A.) spaceless spaceless标签：移除html标签中的空白字符。包括空格、tab键、换行等。示例代码如下：
+
+{% spaceless %}
+<p>
+<a href="foo/">Foo</a>
+</p>
+{% endspaceless %}
+那么在渲染完成后，会变成以下的代码：
+
+<p><a href="foo/">Foo</a></p>
+spaceless 只会移除html标签之间的空白字符。
+
+B.)autoescape 
+autoescape标签：开启和关闭这个标签内元素的自动转义功能。自动转义是可以将一些特殊的字符。比如 < 转义成 html 语法能识别的字符，会被转义成 &lt; ，而 > 会被自动转义成 &gt; 。模板中默认是已经开启了自动转义的。 autoescape 的示例代码如下：
+# 传递的上下文信息context = {"info":"<a href=‘www.baidu.com‘>百度</a>"}
+# 模板中关闭自动转义
+
+{% autoescape off %}
+　　{{ info }}
+{% endautoescape %}
+那么就会显示百度的一个超链接。如果把 off 改成 on ，那么就会显示成一个普通的字符串。示例代码如下：
+
+{% autoescape on %}
+{{ info }}
+{% endautoescape %}
 

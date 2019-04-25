@@ -30,5 +30,5 @@ urlpatterns = [
     path('',test_views.index),
     url(r'^$',views.index),
     url(r'^testdb$',testdb.testdb),
-    url(r'^blog/',include('blog.urls',namespace='blog',app_name='blog')),
+    url(r'^blog/',include('blog.urls')),
 ]
