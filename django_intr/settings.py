@@ -132,3 +132,8 @@ STATICFILES_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(HERE, 'static/'),
 )
+
+EMAIL_HOST = 'smtp.mxhichina.com'
+EMAIL_HOST_USER = 'test@dealeasy.com'
+EMAIL_HOST_PASSWORD = 'De123456!@#'
+EMAIL_PORT = 25
