@@ -3,12 +3,19 @@ from .models import Post,Comment
 # Create your views here.
 from .forms import EmailPostForm,CommentForm
 from django.core.mail import send_mail
+from taggit.models import Tag
 
-def post_list(request):
-    posts=Post.published.all()
+def post_list(request,tag_slug=None):
+    object_list=Post.published.all()
+    tag=None
+    if tag_slug:
+        tag= get_object_or_404(Tag,slug=tag_slug)
+        object_list = object_list.filter(tag_slug)
+
     return render(request,
                   'blog/post/list.html',
-                  {'posts':posts})
+                  {'posts':object_list,
+                   'tag': tag})
 
 def post_detail(request,year,month,day,post):
     post=get_object_or_404(Post,slug=post,
