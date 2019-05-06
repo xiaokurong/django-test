@@ -27,8 +27,10 @@ from testmodel import views as test_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('hello/',views.hello),
-    path('',test_views.index),
     url(r'^$',views.index),
     url(r'^testdb$',testdb.testdb),
     url(r'^blog/',include('blog.urls')),
+    url(r'search_form',views.search_form),
+    url(r'search$',views.search),
+    url(r'search_post$',views.search_post),
 ]
