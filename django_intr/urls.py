@@ -17,9 +17,9 @@ from django.contrib import admin
 from django.urls import path,include
 from . import  views,testdb
 from django.conf.urls import url
-import sys
-sys.path.append('G:\\python_source\\django_test\\django_intr')
-from testmodel import views as test_views
+# from testmodel import views as test_views
+# import sys
+# sys.path.append('G:\\python_source\\django_test\\django_intr')
 
 
 
@@ -29,7 +29,7 @@ urlpatterns = [
     path('hello/',views.hello),
     url(r'^$',views.index),
     url(r'^testdb$',testdb.testdb),
-    url(r'^blog/',include('blog.urls')),
+    path('blog/',include('blog.urls',namespace='blog')),
     url(r'search_form',views.search_form),
     url(r'search$',views.search),
     url(r'search_post$',views.search_post),
