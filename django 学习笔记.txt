@@ -104,3 +104,12 @@ autoescape标签：开启和关闭这个标签内元素的自动转义功能。�
 {{ info }}
 {% endautoescape %}
 
+
+14. 查看django版本
+A.) 在python shell中
+	import django
+	print (django.VERION)
+	
+B.) 在命令行下
+	python -m django --version
+	
