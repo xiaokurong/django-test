@@ -113,3 +113,11 @@ A.) 在python shell中
 B.) 在命令行下
 	python -m django --version
 	
+15. 文件相互调用
+	url		｛  .views  
+	     	 |  django.config.path
+			 |  django.
+			 |
+
+	views   ｛  django.http.httpresponse
+			 |
