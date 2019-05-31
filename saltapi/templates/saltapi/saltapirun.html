@@ -6,7 +6,14 @@
 </head>
 <body>
 <h1>saltapi testing</h1>
-<br>
+</br>
 
+<br id="loginForm" action="{% url 'saltapi:saltapicmd' %}" method="POST">
+    {% csrf_token %}
+    主机名：<input type="text" class="form-control" name="hostnames" placeholder="主机名"> </br>
+    执行命令： <input type="text" class="form-control" style="width:300px" name="commands" placeholder="运行命令"> </br>
+    <button class="btn btn-success btn-block" type="submit"><b>确定执行</b></button>
+    <h4 style="color: red"><b>{{ login_err }}</b></h4>
+</form>
 </body>
 </html>
