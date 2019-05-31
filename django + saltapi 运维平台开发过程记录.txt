@@ -1,0 +1,167 @@
+django + saltapi 运维平台开发过程记录
+一. 开发环境部署django 
+
+
+
+二. 在测试环境的salt-master上部署saltapi
+
+查看salt-master版本，内核信息及系统版本
+[root@master.d]# rpm -qa |grep salt-master
+salt-master-2015.5.10-2.el7.noarch
+
+[root@master.d]# more /etc/redhat-release 
+CentOS Linux release 7.2.1511 (Core) 
+2.1 在salt-master上面安装
+[root@~]# yum -y install salt-api
+2.2 检查cherry包是否安装
+[root@~]# rpm -qa |grep  cherry
+python-cherrypy-3.2.2-4.el7.noarch
+2.3 安装pyOpenSSL包
+[root@~]# yum list |grep -i pyOpenSSL
+pyOpenSSL.x86_64                         0.13.1-3.el7                   base    
+pyOpenSSL-doc.noarch                     0.13.1-3.el7                   base  
+[root@~]# yum install pyOpenSSL
+2.4 自签名证书，生产环境我们可以购买证书
+[root@~]# salt-call --local tls.create_self_signed_cert  #下面有版本提示 暂时忽略
+[ERROR   ] You should upgrade pyOpenSSL to at least 0.14.1 to enable the use of X509 extensions
+local:
+    Created Private Key: "/etc/pki/tls/certs/localhost.key." Created Certificate: "/etc/pki/tls/certs/localhost.crt."
+2.5 在salt-master上，打开include功能方便管理
+[root@~]# grep ^default /etc/salt/master 
+default_include: master.d/*.conf
+2.6 添加api配置到salt-master配置文件
+
+[root@salt]# mkdir master.d #如果是新版本会自动生成此目录
+[root@salt]# cd master.d/
+[root@master.d]# vim api.conf
+[root@master.d]# cat api.conf 
+rest_cherrypy:
+  host: 192.168.56.11
+  port: 8000
+  ssl_crt: /etc/pki/tls/certs/localhost.crt
+  ssl_key: /etc/pki/tls/certs/localhost.key 
+
+2.7 创建用户 -M不创建家目录 ，并设置密码
+[root@master.d]# useradd -M -s /sbin/nologin saltapi
+[root@master.d]# echo "saltapi" | passwd saltapi --stdin
+Changing password for user saltapi.
+passwd: all authentication tokens updated successfully.
+2.8 在salt-master配置文件里添加验证，在include的目录下创建新文件
+
+[root@master.d]# pwd
+/etc/salt/master.d
+[root@master.d]# vi auth.conf
+[root@master.d]# cat auth.conf 
+external_auth:
+  pam:
+    saltapi:
+      - .*
+      - '@wheel'
+      - '@runner'
+      - '@jobs' 
+
+2.9 重启salt-master和启动salt-api
+[root@master.d]# systemctl  restart salt-master
+[root@master.d]# systemctl start salt-api
+2.10 查看salt-api端口监听
+[root@master.d]# netstat -an |grep 8000
+tcp        0      0 192.168.56.11:8000      0.0.0.0:*               LISTEN     
+tcp        0      0 192.168.56.11:45196     192.168.56.11:8000      TIME_WAIT  
+
+
+三. 使用curl测试saltapi调用
+
+3.1 验证login登陆，获取token字符串
+
+[root@ master.d]# curl -sSk https://172.20.20.70:8000/login \
+>     -H 'Accept: application/x-yaml' \
+>     -d username='saltapi' \
+>     -d password='saltapi' \
+>     -d eauth='pam'
+return:
+- eauth: pam
+  expire: 1508781206.155773
+  perms:
+  - .*
+  - '@wheel'
+  - '@runner'
+  - '@jobs'
+  start: 1508738006.155772
+  token: 097e62c6b81ad08019905f55799971a146b392a9
+  user: saltapi
+  
+3.2 通过api执行test.ping测试连通性
+
+[root@  master.d]# curl -sSk https://172.20.20.70:8000 \
+>     -H 'Accept: application/x-yaml' \
+>     -H 'X-Auth-Token: 097e62c6b81ad08019905f55799971a146b392a9'\
+>     -d client=local \
+>     -d tgt='*' \
+>     -d fun=test.ping
+return:
+- xx: true
+  test: true
+
+四. django中部署saltapi的app
+4.1 创建saltapi的app
+G:\python_source\django_test\django_intr> django-admin start saltapi   ##创建saltapi app
+
+4.2 在项目settings.py文件中添加app,数据库配置，其他配置
+##添加apps
+INSTALLED_APPS = [
+	...
+	'saltapi',
+]
+
+##数据库配置
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'test2',
+        'USER': 'root',
+        'PASSWORD': 'De123456',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
+}
+##语言配置
+LANGUAGE_CODE = 'zh-Hans'
+
+##启用debug
+DEBUG = True
+
+4.3 创建urls.py文件
+
+在saltapi的目录下创建urls.py文件
+
+from django.urls import path
+from . import views
+
+app_name = 'saltapi'
+urlpatterns =[
+    path('',views.index,name='index'),
+
+]
+
+4.4 创建views.py文件
+
+from django.http import HttpResponse,HttpResponseRedirect
+
+def index(request):
+
+    return HttpResponse('hello,world!')
+	
+4.5 在项目的urls中添加salt的urls文件
+
+urlpatterns = [
+	....
+	path('saltapi/',include('saltapi.urls')),
+]
+
+4.6 测试saltapi的页面是否正常打开
+
+http://localhost:8000/saltapi/
+
+hello,world!
+
+4.7  
