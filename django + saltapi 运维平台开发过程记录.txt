@@ -188,3 +188,81 @@ header头设置：
     通过包含Content-type头来指定请求正文中的数据格式。
     使用Accept头指定相应主体所需的数据格式。
 	
+
+	
+4.8 postman 测试
+
+注意：json中不能使用单引号。
+A. 认证测试
+POST  https://172.20.20.70:8000/login
+Headers   Accept:application/json
+          Content-Type: application/json
+body  raw (json格式)
+{
+  "username": "saltapi",
+  "password": "saltapi",
+  "eauth": "pam"
+}
+
+response 
+{
+    "return": [
+        {
+            "perms": [
+                ".*",
+                "@wheel",
+                "@runner",
+                "@jobs"
+            ],
+            "start": 1559562311.69813,
+            "token": "ebeef2cd81c788e7802d910dc03fac4d6118086c",
+            "expire": 1559605511.698133,
+            "user": "saltapi",
+            "eauth": "pam"
+        }
+    ]
+}
+B. 请求测试
+POST  https://172.20.20.70:8000/
+Headers   Accept:application/x-yaml
+          Content-Type: application/json
+		  X-Auth-Token:ebeef2cd81c788e7802d910dc03fac4d6118086c
+
+body  raw(json格式)
+{
+	"client": "local", 
+	"tgt": "*", 
+	"fun": "test.ping"
+}
+
+response
+return:
+- 172.20.20.70: true
+  xx: true
+  
+C. 其他测试
+body raw（json）
+{
+	"client": "local", 
+	"tgt": "*", 
+	"fun": "cmd.run",
+	"arg": "cat /etc/passwd"
+}
+
+response
+return:
+- 172.20.20.70: 'root:x:0:0:root:/root:/bin/bash
+
+    bin:x:1:1:bin:/bin:/sbin/nologin
+
+    daemon:x:2:2:daemon:/sbin:/sbin/nologin
+
+    adm:x:3:4:adm:/var/adm:/sbin/nologin
+
+    lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+
+    sync:x:5:0:sync:/sbin:/bin/sync
+
+注意：Invalid URL 'https//172.20.20.70:8000/': No schema supplied. Perhaps you meant http://https//172.20.20.70:8000/? 
+检查url地址，一般是地址错了。
+
