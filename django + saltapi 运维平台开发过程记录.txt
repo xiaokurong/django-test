@@ -2,6 +2,23 @@ django + saltapi 运维平台开发过程记录
 一. 开发环境部署django 
 
 
+额外安装的packages
+salt
+salt
+django-saltapi
+json
+cookielib
+
+
+使用第三方源安装包方法：
+pip install -i https://pypi.doubanio.com/simple salt
+
+备注： 在安装salt包是，出错，出错信息如下：
+D:\Program Files (x86)\WindowsKits\10\include\10.0.17763.0\ucrt\inttypes.h(83): error C2143: 语法错误: 缺少“{”(在“__cdecl”的前面)
+一般是stdint.h文件版本不对，造成的。查找电脑上其他的这个文件，然后在命令行设置新的路径
+set CL=-FI"D:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\stdint.h"
+然后重新安装即可。
+此问题针对vc2017版本。
 
 二. 在测试环境的salt-master上部署saltapi
 
@@ -164,4 +181,10 @@ http://localhost:8000/saltapi/
 
 hello,world!
 
-4.7  
+4.7  cherrypy的Rest api接口规范
+
+header头设置：
+　　REST接口在接受什么样的数据格式以及它将返回什么格式（例如，JSON，YAML，urlencoded）方面是灵活的
+    通过包含Content-type头来指定请求正文中的数据格式。
+    使用Accept头指定相应主体所需的数据格式。
+	
