@@ -121,3 +121,21 @@ B.) 在命令行下
 
 	views   ｛  django.http.httpresponse
 			 |
+			 
+16. 静态文件引用
+在项目setting文件中，添加app的静态文件路径，例如：
+STATICFILES_DIRS = (
+    os.path.join(HERE, 'static/'),
+    os.path.join(HERE,'polls/static/'),
+    os.path.join(HERE,'saltapi/static/'),
+)
+
+在app目录下建立相应的文件夹‘static',之后再建立app名字的文件夹，以便于跟其他app区别开来。上例为’saltapi‘，然后把相应的静态文件，如css文件，图片等放在此目录下，如果文件较多，也可分类放置在子文件夹下。
+模板文件引用静态文件方法：
+在模板的head中添加路径引用：
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'saltapi/home.css' %}">
+
+当多个css设置时，优先级如下：
+内联样式）Inline style > （内部样式）Internal style sheet >（外部样式）External style sheet > 浏览器默认样式
+注意：如果外部样式放在内部样式的后面，则外部样式将覆盖内部样式

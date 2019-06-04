@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'saltapi/home.css' %}">
+    <title>salt 运维平台</title>
+</head>
+
+<body>
+<div id="container" >
+
+<div id="header"  >
+    
+    <h1 style="margin-bottom:0;text-align:center">Salt自动化运维平台</h1></div>
+    <div id="menu" style="width:200px;float:left;">
+        <ul class="sidebar-menu">
+            <li >
+                 <a class="active" href="">主页</a>
+            </li>
+            <li class="menu-item" >
+                <a href="" >执行命令</a>
+            </li>
+            <li class="menu-item" >
+                <a href="" >服务器分组</a>
+            </li>
+            <li class="menu-item" >
+                <a href="" >历史结果</a>
+            </li>
+            <li class="menu-item" >
+                <a href="" >服务器列表</a>
+            </li>
+
+        </ul>
+    </div>
+
+    <div id="content" style=";width:600px;">
+        欢迎光临salt自动化运维平台！
+        {{ welcome }}
+    </div>
+
+    <!--<div id="footer" style="margin-bottom:0;background-color:#CCCCCC;text-align:center;">-->
+        <!--版权 © dealeasy.com-->
+    <!--</div>-->
+
+</div>
+</body>
+</html>

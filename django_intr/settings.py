@@ -136,6 +136,7 @@ STATICFILES_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(HERE, 'static/'),
     os.path.join(HERE,'polls/static/'),
+    os.path.join(HERE,'saltapi/static/'),
 )
 
 EMAIL_HOST = 'smtp.mxhichina.com'

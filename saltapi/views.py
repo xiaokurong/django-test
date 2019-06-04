@@ -6,7 +6,8 @@ from . import saltapi
 
 
 def index(request):
-    return HttpResponse('hello,world!')
+
+    return render(request,'saltapi/home.html',{'welcome': 'salt index'})
 
 def saltapicmd(request):
     if request.method == 'POST':
