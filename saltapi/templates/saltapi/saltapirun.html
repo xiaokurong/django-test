@@ -1,19 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>saltapi testing</h1>
-</br>
+{% extends "saltapi/home.html" %}
+
+{% block title %} 命令执行 {% endblock %}
+
+{% block content %}
+<h1>命令执行</h1>
 
 <form id="loginForm" action="{% url 'saltapi:saltapicmd' %}" method="POST">
     {% csrf_token %}
-    主机名：<input type="text" class="form-control" name="hostnames" placeholder="主机名"> </br>
-    执行命令： <input type="text" class="form-control" style="width:300px" name="commands" placeholder="运行命令"> </br>
+    主机名或组：
+    <input type="text" class="form-control" name="hostnames" placeholder="主机名"> </br>
+    执行  命令：
+    <input type="text" class="form-control" name="commands" placeholder="运行命令"> </br>
     <button class="btn btn-success btn-block" type="submit"><b>确定执行</b></button>
     <h4 style="color: red"><b>{{ login_err }}</b></h4>
 </form>
-</body>
-</html>
+
+{% endblock %}

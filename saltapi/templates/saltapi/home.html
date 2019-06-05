@@ -4,38 +4,47 @@
     <meta charset="UTF-8">
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'saltapi/home.css' %}">
-    <title>salt 运维平台</title>
+    <title>{% block title %} {% endblock %}</title>
 </head>
 
 <body>
 <div id="container" >
 
-<div id="header"  >
-    
-    <h1 style="margin-bottom:0;text-align:center">Salt自动化运维平台</h1></div>
-    <div id="menu" style="width:200px;float:left;">
+    <div id="header"  >
+
+        <h1 >Salt自动化运维平台</h1>
+    </div>
+    <div id="menu" >
         <ul class="sidebar-menu">
             <li >
-                 <a class="active" href="">主页</a>
+                 <a class="active" href="{% url 'saltapi:brief' %}">主页</a>
             </li>
             <li class="menu-item" >
-                <a href="" >执行命令</a>
+                <a href="{% url 'saltapi:saltapicmd' %}" >执行命令</a>
             </li>
             <li class="menu-item" >
-                <a href="" >服务器分组</a>
+                <a href="{% url 'saltapi:servergroup' %}" >服务器分组</a>
             </li>
             <li class="menu-item" >
-                <a href="" >历史结果</a>
+                <a href="{% url 'saltapi:history' %}" >历史结果</a>
             </li>
             <li class="menu-item" >
-                <a href="" >服务器列表</a>
+                <a href="{% url 'saltapi:server' %}" >服务器信息</a>
             </li>
+            <li class="menu-item" >
+                <a href="{% url 'saltapi:user' %}" >用户管理</a>
+            </li>
+            <li class="menu-item" >
+                <a href="{% url 'saltapi:other' %}" >其他</a>
+            </li>
+
 
         </ul>
     </div>
 
-    <div id="content" style=";width:600px;">
-        欢迎光临salt自动化运维平台！
+    <div id="content" >
+        {% block content %}
+        {% endblock %}
         {{ welcome }}
     </div>
 

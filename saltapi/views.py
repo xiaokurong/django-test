@@ -9,6 +9,10 @@ def index(request):
 
     return render(request,'saltapi/home.html',{'welcome': 'salt index'})
 
+
+def brief(request):
+    return render(request,'saltapi/brief.html',)
+
 def saltapicmd(request):
     if request.method == 'POST':
         hostnames=request.POST.get('hostnames')
@@ -25,5 +29,22 @@ def saltapicmd(request):
 
     else:
         return render(request,'saltapi/saltapirun.html')
+
+def history(request):
+    return render(request,'saltapi/history.html',)
+
+
+def server(request):
+    return render(request,'saltapi/server.html',)
+
+def servergroup(request):
+    return render(request,'saltapi/servergroup.html',)
+
+def user(request):
+    return render(request,'saltapi/user.html',)
+
+def other(request):
+    return render(request,'saltapi/other.html',)
+
 
 
