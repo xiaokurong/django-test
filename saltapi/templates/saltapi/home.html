@@ -14,39 +14,44 @@
 
         <h1 >Salt自动化运维平台</h1>
     </div>
-    <div id="menu" >
-        <ul class="sidebar-menu">
-            <li >
-                 <a class="active" href="{% url 'saltapi:brief' %}">主页</a>
-            </li>
-            <li class="menu-item" >
-                <a href="{% url 'saltapi:saltapicmd' %}" >执行命令</a>
-            </li>
-            <li class="menu-item" >
-                <a href="{% url 'saltapi:servergroup' %}" >服务器分组</a>
-            </li>
-            <li class="menu-item" >
-                <a href="{% url 'saltapi:history' %}" >历史结果</a>
-            </li>
-            <li class="menu-item" >
-                <a href="{% url 'saltapi:server' %}" >服务器信息</a>
-            </li>
-            <li class="menu-item" >
-                <a href="{% url 'saltapi:user' %}" >用户管理</a>
-            </li>
-            <li class="menu-item" >
-                <a href="{% url 'saltapi:other' %}" >其他</a>
-            </li>
+
+    <div id="body">
+        <div id="menu" >
+            <ul class="sidebar-menu">
+                <li >
+                     <a class="active" href="{% url 'saltapi:brief' %}">主页</a>
+                </li>
+                <li class="menu-item" >
+                    <a href="{% url 'saltapi:saltapicmd' %}" >执行命令</a>
+                </li>
+                <li class="menu-item" >
+                    <a href="{% url 'saltapi:servergroup' %}" >服务器分组</a>
+                </li>
+                <li class="menu-item" >
+                    <a href="{% url 'saltapi:history' %}" >历史结果</a>
+                </li>
+                <li class="menu-item" >
+                    <a href="{% url 'saltapi:server' %}" >服务器信息</a>
+                </li>
+                <li class="menu-item" >
+                    <a href="{% url 'saltapi:user' %}" >用户管理</a>
+                </li>
+                <li class="menu-item" >
+                    <a href="{% url 'saltapi:other' %}" >其他</a>
+                </li>
 
 
-        </ul>
+            </ul>
+        </div>
+
+        <div id="content" >
+            {% block content %}
+            {% endblock %}
+            {{ welcome }}
+        </div>
     </div>
 
-    <div id="content" >
-        {% block content %}
-        {% endblock %}
-        {{ welcome }}
-    </div>
+
 
     <!--<div id="footer" style="margin-bottom:0;background-color:#CCCCCC;text-align:center;">-->
         <!--版权 © dealeasy.com-->

@@ -75,6 +75,9 @@ python manage.py shell    #类似python命令行，但是包含了django的库
 
 12. 数据库命令行
 python manage.py dbshell
+引用app的models时，需要加入app的名字，例如
+
+from app_name.models import polls
 
 13. django模板标签
 
@@ -139,3 +142,86 @@ STATICFILES_DIRS = (
 当多个css设置时，优先级如下：
 内联样式）Inline style > （内部样式）Internal style sheet >（外部样式）External style sheet > 浏览器默认样式
 注意：如果外部样式放在内部样式的后面，则外部样式将覆盖内部样式
+
+17. models 字段定义
+	1、models.AutoField　　自增列=int(11)
+	　 如果没有的话，默认会生成一个名称为id的列，如果要显示的定义一个自增列，必须把该列设置为主键(primary_key=True)
+	2、models.CharField　　字符串类型字段 必须加max_length参数
+	3、models.BooleanField　布尔类型字段=tinyint(1)  不能为空，Blank=True
+	4、models.ComaSeparatedIntegerField　　用逗号分割的数字类型=varchar 继承CharField，所以必须加max_lenght参数
+	5、models.DateField　　日期字段类型date
+	　 参数auto_now=True表示每次更新都会更新这个时间；参数auto_now_add表示只是第一次创建时添加，之后的更新不再改变
+	6、models.DateTimeField　　日期字段类型datetime  同DateField的参数
+	7、models.Decimal　　十进制小数类型=decimal
+	　 必须指定整数位max_digits和小数位decimal_places
+	8、models.EmailField　　字符串类型(正则表达式邮箱)=varchar  对字符串进行正则表达式验证
+	9、models.FloatField　　浮点类型=double
+	10、models.IntegerField　　整形
+	11、models.BigIntegerField　长整形
+	　　integer_field_ranges = {
+	　　　　'SmallIntegerField': (-32768, 32767),
+	　　　　'IntegerField': (-2147483648, 2147483647),
+	　　　　'BigIntegerField': (-9223372036854775808, 9223372036854775807),
+	　　　　'PositiveSmallIntegerField': (0, 32767),
+	　　　　'PositiveIntegerField': (0, 2147483647),
+	　　}
+	12、models.IPAddressField　　字符串类型(ip4正则表达式)
+	13、models.GenericIPAddressField　　字符串类型（ip4和ip6是可选的）
+	　　参数protocol可以是：both、ipv4、ipv6  验证时，会根据设置进行报错
+	14、models.NullBooleanField　　允许为空的布尔类型
+	15、models.PositiveIntegerFiel　　正Integer
+	16、models.PositiveSmallIntegerField　　正smallInteger
+	17、models.SlugField　　减号、下划线、字母、数字
+	18、models.SmallIntegerField　　数字
+	　　数据库中的字段有：tinyint、smallint、int、bigint
+	19、models.TextField　　字符串=longtext
+	20、models.TimeField　　时间 HH:MM[:ss[.uuuuuu]]
+	21、models.URLField　　字符串类型，地址正则表达式
+	22、models.BinaryField　二进制
+	23、models.ImageField   图片
+	24、models.FilePathField 文件
+
+18. 外键删除处理方式
+1、常见的使用方式(设置为null)
+
+class BookModel(models.Model):
+    """
+    书籍表
+    """
+    book_name = models.CharField(max_length=100, verbose_name='书名')
+    # 表示外键关联到作者表,当作者表删除了该条数据,图书表中不删除,仅仅是把外键置空
+    author = models.ForeignKey(AuthModel, null=True, blank=True, on_delete=models.SET_NULL)
+    price = models.FloatField(verbose_name='价格')
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='添加时间')
+
+关于别的属性的介绍
+
+CASCADE:这就是默认的选项，级联删除，你无需显性指定它。
+PROTECT: 保护模式，如果采用该选项，删除的时候，会抛出ProtectedError错误。
+SET_NULL: 置空模式，删除的时候，外键字段被设置为空，前提就是blank=True, null=True,定义该字段的时候，允许为空。
+SET_DEFAULT: 置默认值，删除的时候，外键字段设置为默认值，所以定义外键的时候注意加上一个默认值。
+SET(): 自定义一个值，该值当然只能是对应的实体了
+
+19. 数据库基本操作
+ d.django表数据的增删查改
+
+  models.py中:
+
+  class Person(models.Model):
+    name = models.CharField(max_length=30)
+    age = models.IntegerField()
+
+ 增加: models.Person.objects.create(name='zhouqiang',age=30)
+
+ 删除: models.Person.objects.filter(name='zhouqiang').delete()
+
+ 查找: models.Person.objects.all()
+
+ 修改: models.Person.objects.filter(name='zhouqiang').update(age=40)
+
+20. 模板调用数据库信息
+     {% for key in person_set %}
+          {{ key.name }}
+		  {{ key.age }}
+      {% endfor %}
+ 

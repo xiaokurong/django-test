@@ -2,6 +2,7 @@ from django.shortcuts import render
 # from django.shortcuts import render,get_object_or_404
 from django.http import HttpResponse,HttpResponseRedirect
 from . import saltapi
+from .models import ServerInfo,UserInfo,UserPriv,ServerGroup
 
 
 
@@ -35,13 +36,22 @@ def history(request):
 
 
 def server(request):
-    return render(request,'saltapi/server.html',)
+
+    try:
+        server_set = ServerInfo.objects.all()
+    except ServerInfo.DoesNotExist:
+        render(request,'saltapi/server.html',{'server_set': server_set, })
+    return render(request,'saltapi/server.html',{'server_set': server_set,})
 
 def servergroup(request):
     return render(request,'saltapi/servergroup.html',)
 
 def user(request):
-    return render(request,'saltapi/user.html',)
+    try:
+        user_set = UserInfo.objects.all()
+    except UserInfo.DoesNotExist:
+        render(request,'saltapi/user.html',{'user_set': user_set,})
+    return render(request,'saltapi/user.html',{'user_set': user_set})
 
 def other(request):
     return render(request,'saltapi/other.html',)

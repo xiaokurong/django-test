@@ -5,4 +5,27 @@
 {% block content %}
 <h1>用户管理</h1>
 
+<br>
+
+<table class="user_info" border="1">
+    <tr>
+        <th>User_Name</th>
+        <th>中文名</th>
+        <th>创建时间</th>
+        <th>用户邮箱</th>
+        <th>用户权限</th>
+
+    </tr>
+    {% for i in user_set %}
+        <tr>
+        <td>{{ i.user_name }}</td>
+        <td>{{ i.user_cnname }}</td>
+        <td>{{ i.add_date }}</td>
+        <td>{{ i.user_email }}</td>
+        <td>{{ i.user_priv_id }}</td>
+        </tr>
+    {% endfor %}
+
+
+
 {% endblock %}

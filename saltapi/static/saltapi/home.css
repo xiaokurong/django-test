@@ -1,35 +1,4 @@
-#header
-{
-    background-color: #f1f1f1;
-    padding: 20px;
-    text-align: center;
 
-}
-
-#menu
-{
-    text-align: left;
-    color: white;
-    float: left;
-    width: 10%;
-    height: 100%;
-    padding: 10px;
-    margin: 10px;
-}
-
-#content
-{
-    color: #000;
-    float: right;
-    text-align: left;
-    width: 80%;
-    padding: 30px;
-    background-color: #f1f1f1;
-    margin: 20px;
-    border: 1px solid;
-
-
-}
 
 ul
 {
@@ -62,43 +31,111 @@ li a.active {
 
 
 
-.zhanshi
-{
-    flex-diretion: row
-    margin: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    border-top: 1px solid #ebebeb;
-    border-bottom: 1px solid #ebebeb;
 
-}
 
-.zhanshineirong
-{
 
-    display: flex;
-    flex-diretion: column;
-    border-right: 1px solid #ebebeb;
-    padding: 12px 16px;
-    box-sizing: border-box;
-    width: 50%
-
-}
-
-input.form-control
-{
-    width：100%；
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
 
 h1
 {
     margin: 8px
     padding: 8px
 
+}
+
+#header
+{
+    background-color: #ddd;
+    padding: 20px;
+    text-align: center;
+    border: 0px solid;
+    margin: 10px;
+
+}
+
+#menu
+{
+    text-align: left;
+    margin: 0px 10px 0px 10px;
+    color: white;
+    width: 200px;
+    height: 100%;
+    float: left;
+    border: 0px solid black;
+
+}
+
+#content
+{
+    color: #000;
+    text-align: left;
+    background-color: #ddd;
+    border: 0px solid;
+    margin-left: 220px;
+    height: 100%;
+    padding-left: 10px;
+
+}
+
+#container
+{
+    background-color: #f1f1f1;
+    margin: 10px;
+    border: 1px solid;
+}
+
+#body
+{
+    height: 600px;
+    border: 0px solid;
+
+}
+
+.zhanshi
+{
+    padding: 0px;
+    margin:  0px;
+    border: 0px solid black;
+    height: 50%;
+
+}
+
+.fuwuqishuliang
+{
+    width: 48%;
+    border: 1px solid;
+    float: left;
+    height: 100%;
+    margin: 0px 15px 0px 0px;
+    padding-left: 10px;
+
+}
+
+.zuijinlishi
+{
+    float: left;
+    width: 48%;
+    border: 1px solid;
+    height: 100%;
+    padding-left: 10px;
+}
+
+.fuwuqifenzhu
+{
+    width: 48%;
+    border: 1px solid;
+    float: left;
+    height: 100%;
+    margin: 0px 15px 0px 0px;
+    padding-left: 10px;
+
+
+}
+
+.yonghudenglu
+{
+    float: left;
+    width: 48%;
+    border: 1px solid;
+    height: 100%;
+    padding-left: 10px;
 }
