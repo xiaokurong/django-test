@@ -20,26 +20,25 @@
         <th>添加时间</th>
         <th>组名</th>
     </tr>
-    {% for i in all_list %}
+    {%  for key,child in all_grains.items %}
         <tr>
-        <td>{{ i.salt_name }}</td>
-        <td>{{ i.server_name }}</td>
-        <td>{{ i.cpu }}</td>
-        <td>{{ i.cpu_core }}</td>
-        <td>{{ i.system }}</td>
-        <td>{{ i.ip_addr }}</td>
-        <td>{{ i.ram }}</td>
-        <td>{{ i.disk }}</td>
-        <td>{{ i.add_date }}</td>
-        <td>{{ i.group_id }}</td>
+        <td>{{ child.id }}</td>
+        <td>{{ child.nodename }}</td>
+        <td>{{ child.cpu_model }}</td>
+        <td>{{ child.num_cpus }}</td>
+        <td>{{ child.os }} {{ child.osrelease }} </td>
+        <td>{{ child.ipv4 }}</td>
+        <td>{{ child.mem_total }}</td>
+        <td>{{ child.disk }}</td>
+        <td>{{ child.add_date }}</td>
+        <td>{{ child.group_id }}</td>
         </tr>
     {% endfor %}
 
-
 </table>
 
-{{ all_grains }}
 
-{{ error }}
 
+
+<font color="red" > {{ refresh_error }}</font>
 {% endblock %}

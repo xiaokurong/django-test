@@ -225,3 +225,19 @@ SET(): 自定义一个值，该值当然只能是对应的实体了
 		  {{ key.age }}
       {% endfor %}
  
+21. 模板调用视图中的变量名称，为字典的键而非值，注意。
+例如：
+views中定义
+def test(request):
+	render(request,'test.html',{'test1': test2 })
+	
+templete 定义：
+
+{{ test }}
+
+22. python 不支持多级字典赋值
+例：
+dict1={}
+dict1['a']['b']='c'   ##提示key error，
+
+
