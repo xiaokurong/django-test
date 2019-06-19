@@ -240,4 +240,13 @@ templete 定义：
 dict1={}
 dict1['a']['b']='c'   ##提示key error，
 
+23. django 模板轮训字典方法
+模板文件：
+{% for key,value in dicts.items %} 
+  <tr class="{% cycle 'altrow' '' %}">             
+    <td>{{ forloop.counter }}</td>           
+    <td>{{ key }}</td>           
+    <td>{{ value }}</td>           
+  </tr>          
+{% endfor %}
 

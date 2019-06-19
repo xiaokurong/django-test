@@ -9,6 +9,7 @@
 
 <table class="server_info" border="1">
     <tr>
+        <th><input type="checkbox" id="all_hosts"></th>
         <th>Salt_Name</th>
         <th>Server_Name</th>
         <th>CPU</th>
@@ -22,6 +23,7 @@
     </tr>
     {%  for key,child in all_grains.items %}
         <tr>
+        <td><input type="checkbox"> </td>
         <td>{{ child.id }}</td>
         <td>{{ child.nodename }}</td>
         <td>{{ child.cpu_model }}</td>
@@ -37,6 +39,8 @@
 
 </table>
 
+<button type="submit">删除</button>
+<button type="submit">添加</button>
 
 
 
