@@ -41,6 +41,8 @@ def server(request):
         server_set = ServerInfo.objects.all()
     except ServerInfo.DoesNotExist:
         render(request,'saltapi/server.html',{'server_set': server_set, })
+
+
     return render(request,'saltapi/server.html',{'server_set': server_set,})
 
 def servergroup(request):
@@ -55,6 +57,59 @@ def user(request):
 
 def other(request):
     return render(request,'saltapi/other.html',)
+
+def insert(request):
+    if request.method == 'POST':
+        salt_name = request.POST['salt_name']
+        server_name = request.POST['server_name']
+        cpu = request.POST['cpu']
+        cpu_core = request.POST['cpu_core']
+        system = request.POST['system']
+        ip_addr = request.POST['ip_addr']
+        ram = request.POST['ram']
+        disk = request.POST['disk']
+
+
+        ServerInfo.objects.create(salt_name=salt_name,server_name=server_name,cpu=cpu,cpu_core=cpu_core,system=system,ip_addr=ip_addr,ram=ram,disk=disk)
+
+    else:
+        return render(request,'saltapi/insert.html')
+
+    return render(request,'saltapi/insert.html',{'insert': '添加成功。'})
+
+
+def refresh(request):
+    try:
+        gsapi = saltapi.SaltAPI(url='https://172.20.20.70:8000/', username='saltapi', password='saltapi')
+        gsalt_client = 'xx'
+        gsalt_method = 'disk.usage'
+        all_list={}
+
+        all_grains = gsapi.salt_command(gsalt_client, gsalt_method)
+        return render(request, 'saltapi/refresh.html', {'refresh': all_grains})
+    except Exception as error:
+        render(request,'saltapi/refresh.html',{'refresh': error})
+
+    #     for i in all_grains.keys():
+    #         all_list[i]['salt_name']= all_grains[i]['id']
+    #         all_list[i]['server_name'] = all_grains[i]['nodename']
+    #         all_list[i]['cpu'] = all_grains[i]['cpu_model']
+    #         all_list[i]['cpu_core'] = all_grains[i]['num_cpus']
+    #         all_list[i]['system'] = all_grains[i]['os'] + ' ' + all_grains[i]['osrelease']
+    #         all_list[i]['ip_addr'] = str(all_grains[i]['ipv4']).replace("'127.0.0.1',","")
+    #         all_list[i]['ram'] = all_grains[i]['mem_total']
+    #         disk_all=gsapi.salt_command(all_grains[i]['id'],'disk.usage')
+    #         all_disk=0
+    #         for j in disk_all.keys():
+    #             all_disk += disk_all[j]['available']
+    #         all_list[i]['disk']=all_disk
+    #
+    # except Exception as error:
+    #     return render(request, 'saltapi/refresh.html', {'refresh': error})
+
+
+
+
 
 
 

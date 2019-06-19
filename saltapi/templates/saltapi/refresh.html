@@ -1,0 +1,45 @@
+{% extends "saltapi/home.html" %}
+
+{% block title %} 获取所有客户端信息 {% endblock %}
+
+
+{% block content %}
+
+<h2>新发现服务器</h2>
+
+<table class="server_info" border="1">
+    <tr>
+        <th>Salt_Name</th>
+        <th>Server_Name</th>
+        <th>CPU</th>
+        <th>CPU内核数量</th>
+        <th>操作系统</th>
+        <th>IP地址</th>
+        <th>内存</th>
+        <th>硬盘</th>
+        <th>添加时间</th>
+        <th>组名</th>
+    </tr>
+    {% for i in all_list %}
+        <tr>
+        <td>{{ i.salt_name }}</td>
+        <td>{{ i.server_name }}</td>
+        <td>{{ i.cpu }}</td>
+        <td>{{ i.cpu_core }}</td>
+        <td>{{ i.system }}</td>
+        <td>{{ i.ip_addr }}</td>
+        <td>{{ i.ram }}</td>
+        <td>{{ i.disk }}</td>
+        <td>{{ i.add_date }}</td>
+        <td>{{ i.group_id }}</td>
+        </tr>
+    {% endfor %}
+
+
+</table>
+
+{{ all_grains }}
+
+{{ error }}
+
+{% endblock %}

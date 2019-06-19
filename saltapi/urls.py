@@ -11,6 +11,8 @@ urlpatterns =[
     path('servergroup',views.servergroup,name='servergroup'),
     path('user',views.user,name='user'),
     path('other',views.other,name='other'),
+    path('insert',views.insert,name='insert'),
+    path('refresh',views.refresh,name='refresh'),
 
 ]
 

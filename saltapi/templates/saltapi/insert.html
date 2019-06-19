@@ -1,0 +1,33 @@
+{% extends "saltapi/home.html" %}
+
+{% block title %} 添加数据 {% endblock %}
+{% block content %}
+
+<h2 >添加数据</h2>
+<form action="{% url 'saltapi:insert' %}" method="post">
+    {% csrf_token %}
+    <label>Salt Name</label>
+    <input type="text" name="salt_name"> </br>
+    <label>Server Name</label>
+    <input type="text" name="server_name"> </br>
+    <label>CPU</label>
+    <input type="text" name="cpu"> </br>
+    <label>CPU内核数量</label>
+    <input type="text" name="cpu_core"> </br>
+    <label>操作系统</label>
+    <input type="text" name="system"> </br>
+    <label>IP地址</label>
+    <input type="text" name="ip_addr"> </br>
+    <label>内存</label>
+    <input type="text" name="ram"> </br>
+    <label>硬盘</label>
+    <input type="text" name="disk"> </br>
+    <label>组名</label>
+    <input type="text" name="group_id"> </br>
+    </br>
+    <button type="submit" name="submit">添加</button>
+
+</form>
+{{ insert }}
+
+{% endblock %}
