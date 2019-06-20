@@ -5,5 +5,26 @@
 
 <h1>历史记录</h1>
 
+<table class="server_info" border="1">
+    <tr>
+        <th>主机名或地址组</th>
+        <th>执行命令</th>
+        <th>执行时间</th>
+        <th>执行结果</th>
+
+    </tr>
+    {% for i in history_set %}
+        <tr>
+        <td>{{ i.hostnames }}</td>
+        <td>{{ i.command_name }}</td>
+        <td>{{ i.exec_time }}</td>
+        <td>{{ i.command_result  }}</td>
+        </tr>
+    {% endfor %}
+
+
+</table>
+
+<h2 color="red">{{ error }}</h2>
 
 {% endblock %}

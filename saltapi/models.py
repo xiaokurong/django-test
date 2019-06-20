@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 class ServerGroup(models.Model):
     group_name = models.CharField(max_length=25)
+    remark = models.CharField(max_length=30,null=True)
 
 class UserPriv(models.Model):
     priv_name = models.CharField(max_length=25)
@@ -30,6 +31,10 @@ class UserInfo(models.Model):
 
 class OffenCommand(models.Model):
     command_name = models.CharField(max_length=50)
+    hostnames = models.CharField(max_length=50,null=True)
+    command_result = models.TextField(null=True)
+    exec_time = models.DateTimeField(auto_now_add=True,null=True)
+
 
 
 

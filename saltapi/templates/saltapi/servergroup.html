@@ -5,5 +5,25 @@
 
 <h1>服务器分组</h1>
 
+<table class="server_info" border="1">
+    <tr>
+        <th>组名</th>
+        <th>分组服务器</th>
+        <th>备注</th>
+
+    </tr>
+    {% for i in server_group_set %}
+        <tr>
+        <td>{{ i.group_name }}</td>
+        <td>{{ i.hosts }}</td>
+        <td>{{ i.remark }}</td>
+        </tr>
+    {% endfor %}
+
+
+</table>
+
+<h2 color="red">{{ error }}</h2>
+
 
 {% endblock %}

@@ -266,3 +266,50 @@ return:
 注意：Invalid URL 'https//172.20.20.70:8000/': No schema supplied. Perhaps you meant http://https//172.20.20.70:8000/? 
 检查url地址，一般是地址错了。
 
+4.9 添加查询页面
+A. 添加urls配置
+	例： 
+urlpatterns =[
+    path('user',views.user,name='user'),
+
+]
+B. 添加对应的views函数
+def user(request):
+    try:
+        user_set = UserInfo.objects.all()
+    except UserInfo.DoesNotExist:
+        render(request,'saltapi/user.html',{'user_set': user_set,})
+    return render(request,'saltapi/user.html',{'user_set': user_set})
+
+C. 添加调用的template
+user.html 文件
+
+{% extends "saltapi/home.html" %}
+
+{% block title %} 用户管理 {% endblock %}
+
+{% block content %}
+<h1>用户管理</h1>
+
+<br>
+
+<table class="user_info" border="1">
+    <tr>
+        <th>User_Name</th>
+        <th>中文名</th>
+        <th>创建时间</th>
+        <th>用户邮箱</th>
+        <th>用户权限</th>
+
+    </tr>
+    {% for i in user_set %}
+        <tr>
+        <td>{{ i.user_name }}</td>
+        <td>{{ i.user_cnname }}</td>
+        <td>{{ i.add_date }}</td>
+        <td>{{ i.user_email }}</td>
+        <td>{{ i.user_priv_id }}</td>
+        </tr>
+    {% endfor %}
+
+{% endblock %}

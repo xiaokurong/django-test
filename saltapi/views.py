@@ -2,7 +2,7 @@ from django.shortcuts import render
 # from django.shortcuts import render,get_object_or_404
 from django.http import HttpResponse,HttpResponseRedirect
 from . import saltapi
-from .models import ServerInfo,UserInfo,UserPriv,ServerGroup
+from .models import ServerInfo,UserInfo,UserPriv,ServerGroup, OffenCommand
 from collections import defaultdict
 
 
@@ -19,12 +19,14 @@ def saltapicmd(request):
     if request.method == 'POST':
         hostnames=request.POST.get('hostnames')
         commands=request.POST.get('commands')
+
         try:
             sapi=saltapi.SaltAPI(url='https://172.20.20.70:8000/',username='saltapi',password='saltapi')
             salt_client=hostnames
             salt_method='cmd.run'
             salt_params = commands
             reinfos = sapi.salt_command(salt_client,salt_method,salt_params)
+            OffenCommand.objects.create(command_name=commands, hostnames=hostnames,command_result=reinfos)
             return render(request,'saltapi/saltapirun.html',{'login_err': reinfos})
         except Exception as error:
             return render(request,'saltapi/saltapirun.html',{'login_err': error})
@@ -33,7 +35,13 @@ def saltapicmd(request):
         return render(request,'saltapi/saltapirun.html')
 
 def history(request):
-    return render(request,'saltapi/history.html',)
+    try:
+        history_set = OffenCommand.objects.all()
+        return render(request, 'saltapi/history.html', {"history_set": history_set})
+    except Exception as error:
+        return  render(request,'saltapi/history.html',{"error": error})
+
+
 
 
 def server(request):
@@ -48,7 +56,13 @@ def server(request):
     return render(request,'saltapi/server.html',{'server_set': server_set,})
 
 def servergroup(request):
-    return render(request,'saltapi/servergroup.html',)
+    try:
+        server_group_set = ServerGroup.objects.all()
+        return render(request, 'saltapi/servergroup.html', {'server_group_set': server_group_set, })
+    except Exception as error:
+        return render(request,'saltapi/servergroup.html',{'error': error})
+
+
 
 def user(request):
     try:
