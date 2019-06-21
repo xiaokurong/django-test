@@ -17,6 +17,7 @@
         <th>硬盘</th>
         <th>添加时间</th>
         <th>组名</th>
+        <th>操作</th>
     </tr>
     {% for i in server_set %}
         <tr>
@@ -30,6 +31,10 @@
         <td>{{ i.disk }}</td>
         <td>{{ i.add_date }}</td>
         <td>{{ i.group_id }}</td>
+        <td>
+            <a href="serverchange/{{ i.id }}" >编 辑</a>
+            <a href="del/{{ i.id }}">删 除</a>
+        </td>
         </tr>
     {% endfor %}
 
@@ -50,6 +55,7 @@
         <th>硬盘</th>
         <th>添加时间</th>
         <th>组名</th>
+        <th>操作</th>
     </tr>
     {% for i in server_new %}
         <tr>
@@ -63,6 +69,9 @@
         <td>{{ i.disk }}</td>
         <td>{{ i.add_date }}</td>
         <td>{{ i.group_id }}</td>
+        <td>
+            <a href="saltapi/{{ i.id }}/insert" >添加</a>
+        </td>
         </tr>
     {% endfor %}
 

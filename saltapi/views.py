@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 # from django.shortcuts import render,get_object_or_404
 from django.http import HttpResponse,HttpResponseRedirect
 from . import saltapi
@@ -129,6 +129,36 @@ def refresh(request):
 
     except Exception as error:
         return render(request, 'saltapi/refresh.html', {'refresh_error': error})
+
+def serverchange(request,server_id):
+
+    if request.method == 'GET':
+        change_set = ServerInfo.objects.get(id=server_id)
+        group_set = ServerGroup.objects.all()
+        return render(request,'saltapi/serverchange.html',{'change_set': change_set,'group_set': group_set})
+    else:
+        salt_name = request.POST.get('salt_name')
+        server_name = request.POST.get('server_name')
+        cpu = request.POST.get('cpu')
+        cpu_core = request.POST.get('cpu_core')
+        system = request.POST.get('system')
+        ip_addr = request.POST.get('ip_addr')
+        ram = request.POST.get('ram')
+        add_date = request.POST.get('add_data')
+        group_id = request.POST.get('group_id')
+
+        update_set = ServerInfo.objects.get(id=server_id)
+        update_set.salt_name = salt_name
+        update_set.server_name = server_name
+        update_set.cpu = cpu
+        update_set.cpu_core = cpu_core
+        update_set.system = system
+        update_set.ip_addr = ip_addr
+        update_set.ram = ram
+        update_set.add_date = add_date
+        update_set.group_id = group_id
+        update_set.save()
+        return redirect('server')
 
 
 

@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path,re_path
 from . import views
 
 app_name = 'saltapi'
@@ -13,6 +13,8 @@ urlpatterns =[
     path('other',views.other,name='other'),
     path('insert',views.insert,name='insert'),
     path('refresh',views.refresh,name='refresh'),
+    # re_path(r'serverchange/(\d+)/',views.serverchange,name='serverchange'),
+    path('<int:server_id>/serverchange/',views.serverchange,name='serverchange'),
 
 ]
 

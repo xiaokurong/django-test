@@ -1,0 +1,46 @@
+{% extends "saltapi/home.html" %}
+
+{% block title %} 修改数据 {% endblock %}
+{% block content %}
+
+<h2 >修改数据</h2>
+<form action="{% url 'saltapi:serverchange' %}" method="post">
+    {% csrf_token %}
+    <label>Salt Name</label>
+    <input type="text" name="salt_name" value="{{ change_set.salt_name }}"></br>
+    <label>Server Name</label>
+    <input type="text" name="server_name"  value="{{ change_set.server_name }}"> </br>
+    <label>CPU</label>
+    <input type="text" name="cpu"  value="{{ change_set.cpu }}"> </br>
+    <label>CPU内核数量</label>
+    <input type="text" name="cpu_core"  value="{{ change_set.cpu_core }}"> </br>
+    <label>操作系统</label>
+    <input type="text" name="system"  value="{{ change_set.system }}"> </br>
+    <label>IP地址</label>
+    <input type="text" name="ip_addr"  value="{{ change_set.ip_addr }}"> </br>
+    <label>内存</label>
+    <input type="text" name="ram"  value="{{ change_set.ram }}"> </br>
+    <label>硬盘</label>
+    <input type="text" name="disk"  value="{{ change_set.disk }}"> </br>
+    <label>添加时间</label>
+    <input type="text" name="add_date"  value="{{ change_set.add_date }}"> </br>
+    </br>
+    <label>组名</label>
+    <select name="group_id">
+        {% for group in group_set %}
+            {% if change_set.group_id == group.id %}
+                <option selected value="{{ group.id }}">{{ group.group_name }}</option>
+            {% else %}
+                <option value="{{ group.id }}"> {{ group.group_name }}</option>
+            {% endif %}
+        {% endfor %}
+
+    </select>
+
+    </br>
+    <button type="submit" name="submit">修改</button>
+
+</form>
+{{ insert }}
+
+{% endblock %}
