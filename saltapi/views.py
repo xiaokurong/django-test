@@ -48,12 +48,13 @@ def server(request):
 
     try:
         server_set = ServerInfo.objects.all()
+        group_set = ServerGroup.objects.all()
+        return render(request,'saltapi/server.html',{'server_set': server_set,'group_set': group_set})
 
     except ServerInfo.DoesNotExist:
         render(request,'saltapi/server.html',{'server_set': server_set, })
 
 
-    return render(request,'saltapi/server.html',{'server_set': server_set,})
 
 def servergroup(request):
     try:
@@ -130,7 +131,7 @@ def refresh(request):
     except Exception as error:
         return render(request, 'saltapi/refresh.html', {'refresh_error': error})
 
-def serverchange(request,server_id):
+def serverchange(request, server_id):
 
     if request.method == 'GET':
         change_set = ServerInfo.objects.get(id=server_id)
@@ -144,7 +145,7 @@ def serverchange(request,server_id):
         system = request.POST.get('system')
         ip_addr = request.POST.get('ip_addr')
         ram = request.POST.get('ram')
-        add_date = request.POST.get('add_data')
+        add_date = request.POST.get('add_date')
         group_id = request.POST.get('group_id')
 
         update_set = ServerInfo.objects.get(id=server_id)
@@ -155,10 +156,10 @@ def serverchange(request,server_id):
         update_set.system = system
         update_set.ip_addr = ip_addr
         update_set.ram = ram
-        update_set.add_date = add_date
-        update_set.group_id = group_id
+        # update_set.add_date = add_date
+        update_set.group_id = ServerGroup.objects.get(id=group_id)
         update_set.save()
-        return redirect('server')
+        return redirect('/saltapi/server')
 
 
 

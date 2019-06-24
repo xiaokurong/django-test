@@ -14,7 +14,7 @@ urlpatterns =[
     path('insert',views.insert,name='insert'),
     path('refresh',views.refresh,name='refresh'),
     # re_path(r'serverchange/(\d+)/',views.serverchange,name='serverchange'),
-    path('<int:server_id>/serverchange/',views.serverchange,name='serverchange'),
+    path('serverchange/<int:server_id>',views.serverchange,name='serverchange'),
 
 ]
 

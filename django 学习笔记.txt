@@ -250,3 +250,6 @@ dict1['a']['b']='c'   ##提示key error，
   </tr>          
 {% endfor %}
 
+24. django 模型赋值
+给具有外键的模型赋值是，不能使用“=”赋值，需要使用“set”赋值。
+例： user.class_id = Class.objects.get(class_id=1)

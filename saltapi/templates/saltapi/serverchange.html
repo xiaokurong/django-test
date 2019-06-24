@@ -4,7 +4,7 @@
 {% block content %}
 
 <h2 >修改数据</h2>
-<form action="{% url 'saltapi:serverchange' %}" method="post">
+<form action="{% url 'saltapi:serverchange' change_set.id %}" method="post">
     {% csrf_token %}
     <label>Salt Name</label>
     <input type="text" name="salt_name" value="{{ change_set.salt_name }}"></br>
@@ -23,7 +23,7 @@
     <label>硬盘</label>
     <input type="text" name="disk"  value="{{ change_set.disk }}"> </br>
     <label>添加时间</label>
-    <input type="text" name="add_date"  value="{{ change_set.add_date }}"> </br>
+    <input type="text" name="add_date"  value="{{ change_set.add_date }}" disabled> </br>
     </br>
     <label>组名</label>
     <select name="group_id">

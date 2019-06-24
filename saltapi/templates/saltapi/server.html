@@ -30,7 +30,8 @@
         <td>{{ i.ram }}</td>
         <td>{{ i.disk }}</td>
         <td>{{ i.add_date }}</td>
-        <td>{{ i.group_id }}</td>
+        <td>{{ i.group_id }}
+        </td>
         <td>
             <a href="serverchange/{{ i.id }}" >编 辑</a>
             <a href="del/{{ i.id }}">删 除</a>
@@ -40,6 +41,20 @@
 
 
 </table>
+{% for i in server_set %}
+    {{ i.id }} --- </br>
+    {{ i.server_group.group_name }}
+    {% for group in i.servergroup_set.all %}
+        {{ group }} ----
+    {% endfor %}
+    {% for group in group_set %}
+            {{ i.servergroup.group_name }} ....
+            {{ group.id }} >>>>
+
+            {{ group.group_name }} <<<<
+
+    {% endfor %}
+{% endfor %}
 
 <h2>新发现服务器</h2>
 
