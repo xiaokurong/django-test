@@ -1,0 +1,38 @@
+{% extends "saltapi/home.html" %}
+
+{% block title %} 修改用户信息 {% endblock %}
+{% block content %}
+
+<h2 >修改用户信息</h2>
+
+<form action="{% url 'saltapi:user_change' user.id %}" method="post">
+    {% csrf_token %}
+    <label>用户名</label>
+    <input type="text" name="user_name" value="{{ user.user_name }}"> </br>
+    <label>用户中文名称</label>
+    <input type="text" name="user_cnname" value="{{ user.user_cnname}}"> </br>
+    <label>创建时间</label>
+    <input type="text" name="add_date" value="{{ user.add_date }}" disabled> </br>
+    <label>用户密码</label>
+    <input type="text" name="user_pass" value="{{ user.pass }}"> </br>
+    <label>邮箱地址</label>
+    <input type="text" name="user_email" value="{{ user.user_email }}"> </br>
+    <label>用户权限组</label>
+    <select name="user_priv_id">
+        {% for i in user %}
+            {% if i.user_priv_id == userpriv.id %}
+                <option selected value="{{ i.user_priv_id }}">{{ userpriv.priv_name }}</option>
+            {% else %}
+                <option value="{{ i.user_priv_id }}"> {{ userpriv.priv_name }}</option>
+            {% endif %}
+        {% endfor %}
+
+    </select>
+
+    </br>
+    <button type="submit" name="submit">添加</button>
+
+</form>
+
+
+{% endblock %}

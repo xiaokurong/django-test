@@ -187,22 +187,51 @@ def userpriv_add(request):
         return redirect('/saltapi/userpriv')
 
 #删除用户权限组
-def userpriv_del(request,userpriv_id):
-    userpriv = UserPriv.objects.get(id=userpriv_id)
+def userpriv_del(request,priv_id):
+    userpriv = UserPriv.objects.get(id=priv_id)
     userpriv.delete()
     return redirect('/saltapi/userpriv')
 
 #修改用户权限组
 def userpriv_change(request,priv_id):
-    pass
+    if request.method == 'GET':
+        priv = UserPriv.objects.get(id=priv_id)
+        render(request,'/saltapi/userpriv_change.html',{'priv': priv })
+    else:
+        privname= request.POST.get('priv_name')
+        privcomm= request.POST.get('comment')
+        UserPriv.objects.create(priv_name=privname,comment=privcomm)
+        return redirect('/saltapi/userpriv')
 
 #删除用户
 def user_del(request,user_id):
-    pass
+    user = UserInfo.objects.get(id= user_id)
+    user.delete()
+    return redirect('/saltapi/user')
 
 #修改用户信息
 def user_change(request,user_id):
-    pass
+    if request.method == 'GET':
+        user = UserInfo.objects.get(id=user_id)
+        userpriv = UserPriv.objects.all()
+        return render(request,'saltapi/user_change.html',{'user': user,'userprvi': userpriv})
+    else:
+        userid = request.POST.get('user_id')
+        username = request.POST.get('user_name')
+        usercnname = request.POST.get('user_cnname')
+        userpass = request.POST.get('user_pass')
+        useremail = request.POST.get('user_email')
+        userprivid = request.POST.get('userpriv_id')
+
+        updateuser = UserInfo.objects.get(id=userid)
+        updateuser.user_name = username
+        updateuser.user_cnname = usercnname
+        updateuser.user_pass = userpass
+        updateuser.user_email = useremail
+        updateuser.user_priv_id = UserPriv.objects.get(id = userprivid)
+        updateuser.save()
+        return redirect('/saltapi/user')
+
 
 
 
