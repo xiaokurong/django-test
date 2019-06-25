@@ -15,6 +15,10 @@ urlpatterns =[
     path('refresh',views.refresh,name='refresh'),
     # re_path(r'serverchange/(\d+)/',views.serverchange,name='serverchange'),
     path('serverchange/<int:server_id>',views.serverchange,name='serverchange'),
+    path('serverdelete/<int:server_id>',views.serverdelete,name='serverdelete'),
+    path('userpriv',views.userpriv,name='userpriv'),
+    path('userpriv_add',views.userpriv_add,name='userpriv_add'),
+    path('userpriv_del/<int:userpriv_id>',views.userpriv_del,name='userpriv_del'),
 
 ]
 

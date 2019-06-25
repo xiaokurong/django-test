@@ -3,10 +3,11 @@ from django.db import models
 # Create your models here.
 class ServerGroup(models.Model):
     group_name = models.CharField(max_length=25)
-    remark = models.CharField(max_length=30,null=True)
+    comment = models.CharField(max_length=30,null=True)
 
 class UserPriv(models.Model):
     priv_name = models.CharField(max_length=25)
+    comment = models.CharField(max_length=250,null=True)
 
 class ServerInfo(models.Model):
     salt_name = models.CharField(max_length=25)
@@ -17,7 +18,7 @@ class ServerInfo(models.Model):
     ip_addr = models.GenericIPAddressField(protocol='ipv4',null=True)
     ram = models.IntegerField(null=True)
     disk = models.IntegerField(null=True)
-    group_id = models.ForeignKey(ServerGroup,null=True,blank=True,on_delete=models.SET_NULL)
+    group_id = models.ForeignKey(ServerGroup,null=True,blank=True,on_delete=models.SET_NULL,default=1)
     add_date = models.DateTimeField(auto_now_add=True)
 
 class UserInfo(models.Model):

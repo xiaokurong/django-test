@@ -11,10 +11,11 @@ def index(request):
 
     return render(request,'saltapi/home.html',{'welcome': 'salt index'})
 
-
+#首页
 def brief(request):
     return render(request,'saltapi/brief.html',)
 
+#salt命令执行
 def saltapicmd(request):
     if request.method == 'POST':
         hostnames=request.POST.get('hostnames')
@@ -34,6 +35,7 @@ def saltapicmd(request):
     else:
         return render(request,'saltapi/saltapirun.html')
 
+#查询历史命令
 def history(request):
     try:
         history_set = OffenCommand.objects.all()
@@ -43,7 +45,7 @@ def history(request):
 
 
 
-
+#查询服务器信息
 def server(request):
 
     try:
@@ -55,7 +57,7 @@ def server(request):
         render(request,'saltapi/server.html',{'server_set': server_set, })
 
 
-
+#查询服务器分组信息
 def servergroup(request):
     try:
         server_group_set = ServerGroup.objects.all()
@@ -64,7 +66,7 @@ def servergroup(request):
         return render(request,'saltapi/servergroup.html',{'error': error})
 
 
-
+#查询用户信息
 def user(request):
     try:
         user_set = UserInfo.objects.all()
@@ -75,6 +77,7 @@ def user(request):
 def other(request):
     return render(request,'saltapi/other.html',)
 
+#新增服务器信息
 def insert(request):
     if request.method == 'POST':
         salt_name = request.POST['salt_name']
@@ -94,7 +97,7 @@ def insert(request):
 
     return render(request,'saltapi/insert.html',{'insert': '添加成功。'})
 
-
+#刷新salt-stack所有客户端
 def refresh(request):
     try:
         gsapi = saltapi.SaltAPI(url='https://172.20.20.70:8000/', username='saltapi', password='saltapi')
@@ -131,6 +134,7 @@ def refresh(request):
     except Exception as error:
         return render(request, 'saltapi/refresh.html', {'refresh_error': error})
 
+#修改服务器信息
 def serverchange(request, server_id):
 
     if request.method == 'GET':
@@ -160,6 +164,49 @@ def serverchange(request, server_id):
         update_set.group_id = ServerGroup.objects.get(id=group_id)
         update_set.save()
         return redirect('/saltapi/server')
+
+#删除服务器
+def serverdelete(request,server_id):
+    server = ServerInfo.objects.get(id=server_id)
+    server.delete()
+    return redirect('/saltapi/server')
+
+#查询用户权限组
+def userpriv(request):
+    userpriv_set = UserPriv.objects.all()
+    return render(request,'saltapi/userpriv.html',{'userpriv_set': userpriv_set})
+
+#添加用户权限组
+def userpriv_add(request):
+    if request.method == 'GET' :
+        return render(request,'saltapi/userpriv_add.html',)
+    else:
+        priname = request.POST.get('priv_name')
+        pricomment = request.POST.get('comment')
+        UserPriv.objects.create(priv_name=priname,comment=pricomment)
+        return redirect('/saltapi/userpriv')
+
+#删除用户权限组
+def userpriv_del(request,userpriv_id):
+    userpriv = UserPriv.objects.get(id=userpriv_id)
+    userpriv.delete()
+    return redirect('/saltapi/userpriv')
+
+#修改用户权限组
+def userpriv_change(request,priv_id):
+    pass
+
+#删除用户
+def user_del(request,user_id):
+    pass
+
+#修改用户信息
+def user_change(request,user_id):
+    pass
+
+
+
+
 
 
 

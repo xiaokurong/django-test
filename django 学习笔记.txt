@@ -251,5 +251,26 @@ dict1['a']['b']='c'   ##提示key error，
 {% endfor %}
 
 24. django 模型赋值
-给具有外键的模型赋值是，不能使用“=”赋值，需要使用“set”赋值。
-例： user.class_id = Class.objects.get(class_id=1)
+给具有外键的模型赋值和查询比较特殊。
+
+外键引用
+class User(models.Model):
+	username = models.CharField(max_length=25)
+	usergroup = models.ForeignKey(Group,null=True,blank=True,on_delete=models.SET_NULL)
+	
+class Group(models.Model):
+	groupname = models.CharField(max_length=25)
+	
+user_set = User.objects.all()
+for i in user_set:
+	print(i.usergroup.groupname)
+	
+外键赋值
+user.usergroup = Group.objects.get(id=1)
+
+删除数据
+deluser= User.objects.get(id=1)
+deluser.delete()
+
+通过主表查子表
+

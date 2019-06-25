@@ -1,0 +1,36 @@
+{% extends "saltapi/home.html" %}
+
+{% block title %} 用户权限 {% endblock %}
+{% block content %}
+
+<h2 >用户权限</h2>
+
+<table class="server_info" border="1">
+    <tr>
+        <th>用户权限</th>
+        <th>包含用户</th>
+        <th>权限说明</th>
+        <th>操作</th>
+
+    </tr>
+    {% for i in userpriv_set %}
+        <tr>
+        <td>{{ i.priv_name }}</td>
+        <td>{% for j in i.userinfo_set.all %}
+               {{ j.user_cnname }}
+            {% endfor %}
+        </td>
+        <td>{{ i.comment }}</td>
+        <td>
+            <a href="userpriv_del/{{ i.id }}" >删除</a>
+            <a href="userpriv_change/{{ i.id }}" >编辑</a>
+        </td>
+        </tr>
+    {% endfor %}
+
+
+</table>
+
+<a href="userpriv_add" >添加权限组</a>
+
+{% endblock %}

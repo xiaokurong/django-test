@@ -14,6 +14,7 @@
         <th>创建时间</th>
         <th>用户邮箱</th>
         <th>用户权限</th>
+        <th>操作</th>
 
     </tr>
     {% for i in user_set %}
@@ -22,8 +23,13 @@
         <td>{{ i.user_cnname }}</td>
         <td>{{ i.add_date }}</td>
         <td>{{ i.user_email }}</td>
-        <td>{{ i.user_priv_id }}</td>
+        <td>{{ i.user_priv_id.priv_name }}</td>
+        <td>
+            <a href="/saltapi/user_change/{{ i.id }}" >修改</a>
+            <a href="/saltapi/user_del/{{ i.id }}" >删除</a>
+        </td>
         </tr>
+
     {% endfor %}
 
 
