@@ -10,18 +10,29 @@
         <th>组名</th>
         <th>分组服务器</th>
         <th>备注</th>
+        <th>操作</th>
 
     </tr>
     {% for i in server_group_set %}
         <tr>
         <td>{{ i.group_name }}</td>
-        <td>{{ i.hosts }}</td>
-        <td>{{ i.remark }}</td>
+        <td>
+            {% for j in i.serverinfo_set.all %}
+                {{ j.server_name }}
+            {% endfor %}
+        </td>
+        <td>{{ i.comment }}</td>
+        <td>
+            <a href="servergroup_change/{{ i.id }}" >修改</a>
+            <a href="servergroup_del/{{ i.id }}" >删除</a>
+        </td>
         </tr>
+
     {% endfor %}
 
 
 </table>
+<a href="servergroup_add" >添加分组</a>
 
 <h2 color="red">{{ error }}</h2>
 

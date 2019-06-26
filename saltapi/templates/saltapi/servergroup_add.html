@@ -1,0 +1,19 @@
+{% extends "saltapi/home.html" %}
+
+{% block title %} 添加服务器分组 {% endblock %}
+{% block content %}
+<h2 >添加服务器分组</h2>
+
+<form action="{% url 'saltapi:servergroup_add' %}" method="post">
+    {% csrf_token %}
+    <label>组名</label>
+    <input type="text" name="group_name" > </br>
+    <label>备注</label>
+    <input type="text" name="comment" > </br>
+
+    </br>
+    <button type="submit" name="submit">添加</button>
+
+</form>
+
+{% endblock %}

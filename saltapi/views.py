@@ -61,24 +61,47 @@ def server(request):
 def servergroup(request):
     try:
         server_group_set = ServerGroup.objects.all()
-        return render(request, 'saltapi/servergroup.html', {'server_group_set': server_group_set, })
+        server_set = ServerInfo.objects.all()
+        return render(request, 'saltapi/servergroup.html', {'server_group_set': server_group_set, 'server_set': server_set})
     except Exception as error:
         return render(request,'saltapi/servergroup.html',{'error': error})
 
+#修改服务器分组
+def servergroup_change(request,group_id):
+    if request.method == 'GET':
+        group = ServerGroup.objects.get(id=group_id)
+        return render(request,'saltapi/servergroup_change.html',{'group': group })
+    else:
+        group = ServerGroup.objects.get(id=group_id)
+        groupname = request.POST.get('group_name')
+        groupcomment = request.POST.get('comment')
+        group.group_name = groupname
+        group.comment = groupcomment
+        group.save()
+        return redirect('/saltapi/servergroup')
 
-#查询用户信息
-def user(request):
-    try:
-        user_set = UserInfo.objects.all()
-    except UserInfo.DoesNotExist:
-        render(request,'saltapi/user.html',{'user_set': user_set,})
-    return render(request,'saltapi/user.html',{'user_set': user_set})
+#添加服务器分组
+def servergroup_add(request):
+    if request.method == 'GET':
+        return render(request,'saltapi/servergroup_add.html',)
+    else:
+        groupname = request.POST.get('group_name')
+        groupcomment = request.POST.get('comment')
+        ServerGroup.objects.create(group_name = groupname,comment=groupcomment)
+        return redirect('/saltapi/servergroup')
+
+
+#删除服务器分组
+def servergroup_del(request,group_id):
+    group = ServerGroup.objects.get(id=group_id)
+    group.delete()
+    return redirect('/saltapi/servergroup')
 
 def other(request):
     return render(request,'saltapi/other.html',)
 
 #新增服务器信息
-def insert(request):
+def serveradd(request):
     if request.method == 'POST':
         salt_name = request.POST['salt_name']
         server_name = request.POST['server_name']
@@ -93,9 +116,9 @@ def insert(request):
         ServerInfo.objects.create(salt_name=salt_name,server_name=server_name,cpu=cpu,cpu_core=cpu_core,system=system,ip_addr=ip_addr,ram=ram,disk=disk)
 
     else:
-        return render(request,'saltapi/insert.html')
+        return render(request,'saltapi/serveradd.html')
 
-    return render(request,'saltapi/insert.html',{'insert': '添加成功。'})
+    return render(request,'saltapi/serveradd.html',{'serveradd': '添加成功。'})
 
 #刷新salt-stack所有客户端
 def refresh(request):
@@ -196,12 +219,24 @@ def userpriv_del(request,priv_id):
 def userpriv_change(request,priv_id):
     if request.method == 'GET':
         priv = UserPriv.objects.get(id=priv_id)
-        render(request,'/saltapi/userpriv_change.html',{'priv': priv })
+        return render(request,'saltapi/userpriv_change.html',{'priv': priv })
     else:
         privname= request.POST.get('priv_name')
         privcomm= request.POST.get('comment')
-        UserPriv.objects.create(priv_name=privname,comment=privcomm)
+        priv = UserPriv.objects.get(id=priv_id)
+        priv.priv_name = privname
+        priv.comment = privcomm
+        priv.save()
         return redirect('/saltapi/userpriv')
+
+#查询用户信息
+def user(request):
+    try:
+        user_set = UserInfo.objects.all()
+    except UserInfo.DoesNotExist:
+        render(request,'saltapi/user.html',{'user_set': user_set,})
+    return render(request,'saltapi/user.html',{'user_set': user_set})
+
 
 #删除用户
 def user_del(request,user_id):
@@ -214,16 +249,16 @@ def user_change(request,user_id):
     if request.method == 'GET':
         user = UserInfo.objects.get(id=user_id)
         userpriv = UserPriv.objects.all()
-        return render(request,'saltapi/user_change.html',{'user': user,'userprvi': userpriv})
+        return render(request,'saltapi/user_change.html',{'user': user,'userpriv': userpriv})
     else:
-        userid = request.POST.get('user_id')
+
         username = request.POST.get('user_name')
         usercnname = request.POST.get('user_cnname')
         userpass = request.POST.get('user_pass')
         useremail = request.POST.get('user_email')
-        userprivid = request.POST.get('userpriv_id')
+        userprivid = request.POST.get('user_priv_id')
 
-        updateuser = UserInfo.objects.get(id=userid)
+        updateuser = UserInfo.objects.get(id=user_id)
         updateuser.user_name = username
         updateuser.user_cnname = usercnname
         updateuser.user_pass = userpass
@@ -231,6 +266,21 @@ def user_change(request,user_id):
         updateuser.user_priv_id = UserPriv.objects.get(id = userprivid)
         updateuser.save()
         return redirect('/saltapi/user')
+
+def user_add(request):
+    if request.method == 'POST':
+        username = request.POST.get('user_name')
+        usercnname = request.POST.get('user_cnname')
+        userpass = request.POST.get('user_pass')
+        useremail = request.POST.get('user_email')
+        userprivid = UserPriv.objects.get(id=request.POST.get('user_priv_id'))
+        UserInfo.objects.create(user_name=username,user_cnname=usercnname,user_pass=userpass,user_email=useremail,user_priv_id=userprivid)
+        return redirect('/saltapi/user')
+    else:
+        userpriv = UserPriv.objects.all()
+        return render(request,'saltapi/user_add.html',{'userpriv': userpriv})
+
+
 
 
 

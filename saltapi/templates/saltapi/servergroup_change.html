@@ -1,0 +1,20 @@
+{% extends "saltapi/home.html" %}
+
+{% block title %} 修改服务器分组 {% endblock %}
+{% block content %}
+<h2 >修改服务器分组</h2>
+
+<form action="{% url 'saltapi:servergroup_change' group.id %}" method="post">
+    {% csrf_token %}
+    <label>组名</label>
+    <input type="text" name="group_name" value="{{ group.group_name }}"> </br>
+    <label>备注</label>
+    <input type="text" name="comment" value="{{ group.comment }}"> </br>
+
+    </br>
+    <button type="submit" name="submit">添加</button>
+
+</form>
+
+
+{% endblock %}

@@ -5,7 +5,7 @@
 
 <h2 >修改用户权限组</h2>
 
-<form action="{% url 'saltapi:userpriv_change' %}" method="post">
+<form action="{% url 'saltapi:userpriv_change' priv.id %}" method="post">
     {% csrf_token %}
     <label>权限组名</label>
     <input type="text" name="priv_name" value="{{ priv.priv_name }}"> </br>

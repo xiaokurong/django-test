@@ -4,7 +4,7 @@
 {% block content %}
 
 <h2 >添加数据</h2>
-<form action="{% url 'saltapi:insert' %}" method="post">
+<form action="{% url 'saltapi:serveradd' %}" method="post">
     {% csrf_token %}
     <label>Salt Name</label>
     <input type="text" name="salt_name"> </br>
@@ -28,6 +28,5 @@
     <button type="submit" name="submit">添加</button>
 
 </form>
-{{ insert }}
 
 {% endblock %}
