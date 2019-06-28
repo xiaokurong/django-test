@@ -4,6 +4,7 @@ from django.http import HttpResponse,HttpResponseRedirect
 from . import saltapi
 from .models import ServerInfo,UserInfo,UserPriv,ServerGroup, OffenCommand
 from collections import defaultdict
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 
 
 
@@ -37,11 +38,26 @@ def saltapicmd(request):
 
 #查询历史命令
 def history(request):
+    #分页显示
+    history_set = OffenCommand.objects.all()
+    #每页三行
+    page_histroy_set =  Paginator(history_set,3)
+    page = request.GET.get('page')
     try:
-        history_set = OffenCommand.objects.all()
-        return render(request, 'saltapi/history.html', {"history_set": history_set})
-    except Exception as error:
-        return  render(request,'saltapi/history.html',{"error": error})
+        page_histroy = page_histroy_set.page(page)
+    except PageNotAnInteger:
+        page_histroy = page_histroy_set.page(1)
+    except EmptyPage:
+        page_histroy = page_histroy_set.page(page_histroy_set.num_pages)
+
+    return render(request,'saltapi/history.html',{'page_history': page_histroy})
+
+    #无分页显示
+    # try:
+    #     history_set = OffenCommand.objects.all()
+    #     return render(request, 'saltapi/history.html', {"history_set": history_set})
+    # except Exception as error:
+    #     return  render(request,'saltapi/history.html',{"error": error})
 
 
 

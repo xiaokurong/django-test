@@ -13,7 +13,7 @@
         <th>执行结果</th>
 
     </tr>
-    {% for i in history_set %}
+    {% for i in page_history %}
         <tr>
         <td>{{ i.hostnames }}</td>
         <td>{{ i.command_name }}</td>
@@ -24,6 +24,7 @@
 
 
 </table>
+{% include 'pagination.html' with page=page_history %}
 
 <h2 color="red">{{ error }}</h2>
 
