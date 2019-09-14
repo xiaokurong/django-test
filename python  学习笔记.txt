@@ -160,12 +160,35 @@ python  学习笔记
 	replace(args1,args2,args3) 将字符串中的字符替换成新字符，并在限定的次数内。args1是被替换的字符，args2是用于替换的新字符，args3是替换的次数，如果不指定，仅替换第一个。
 		letters =‘abc,def,ghi,def’
 		letters.replace('d','dd',3) => 'abc,ddef,ghi,ddef'
+	
+	rstrip() 将字符串末尾(右侧)多余的空白删除
+		language = ' Python '
+		language.rstrip()  => ' Python'
+		
+	lstrip() 将字符串开始(左侧)多余的空白删除
+		language = ' Python '
+		language.lstrip()  => 'Python '
+		
+	strip() 将字符串开始(左侧)和末尾(右侧)多余的空白删除
+		language = ' Python '
+		language.lstrip()  => 'Python'
+		
+	eval()去掉外侧的引号，并执行余下的语句
+		eval('1+2') => 3
+		eval('"1+2"') => "1+2"
+		eval("print('hello')")  => 'hello'
+	
 7. 列表
 	使用[]或list（）创建列表，列表有零个或多个元素组成，元素之间用“，”隔开。
 		empty_list =[]    another_empty_list = list()
 	
 	list() 将其他类型转换为列表
 		list（‘abc’）  => ['a','b','c']
+		
+	range()和list()组合创建数字列表
+		list(range(1,5))  ==> [1,2,3,4]
+	
+		
 		
 	使用偏移量[offset]获取列表元素
 		a_list=['abc','efg','hij']
@@ -225,13 +248,21 @@ python  学习笔记
 		a_list=['abc','efg','hij']
 		','.join(a_list) => 'abc,efg,hij'
 		
-	sorted() 通用函数，会将列表的内容排序并返回的排序后列表副本，如果列表都是数字，会按从小到大的顺序排列，如果列表都是字符串，会按字母表顺序排序。
+	sorted() 通用函数，会将列表的内容临时排序并返回的排序后列表副本，如果列表都是数字，会按从小到大的顺序排列，如果列表都是字符串，会按字母表顺序排序。
 		a_list=['efg','hij','abc']
 		sorted(a_list)  =>  ['abc','efg','hij']
 		
-	sort() 列表方法，会修改列表的顺序。如果列表都是数字，会按从小到大的顺序排列，如果列表都是字符串，会按字母表顺序排序。
+	sort() 列表方法，会永久修改列表的顺序。如果列表都是数字，会按从小到大的顺序排列，如果列表都是字符串，会按字母表顺序排序。
 		a_list=['efg','hij','abc']
 		a_list.sort()  => a_list=['abc','efg','hij']
+		
+	sort(reverse=True) 反向排列列表元素。
+		a_list=['efg','hij','abc']
+		a_list.sort(reverse=True)  => a_list=['hij','efg','abc']
+		
+	reverse() 列表方法，反转列表元素的排列顺序。
+		a_list=['efg','hij','abc']
+		a_list.reverse()  => a_list=['abc','hij','efg']
 		
 	len() 返回列表的长度。
 		a_list=['abc','efg','hij']
@@ -243,6 +274,44 @@ python  学习笔记
 		复制列表的其他方法
 		b_list=list(a_list)  => b_list=['abc','efg','hij']
 		b_list=a_list[:] => b_list=['abc','efg','hij']
+	
+	
+	赋值，浅拷贝，深拷贝区别
+	针对python内置的可修改的数据结构对象，比如列表，字典，集合等，会有赋值，浅拷贝，深拷贝区别。
+	区别如下：
+		赋值仅仅是对对象的引用，如果对象发生变化，被赋值的对象也跟着变化。
+		浅拷贝是对对象的第一层复制，但是子元素仍然指向原来的子对象；如果原来的子对象发生变化，则浅拷贝的子对象也发生变化；如果原来的对象发生变化，则浅拷贝不发生变化。
+		
+		深拷贝则是对对象的全部复制，原对象不管是否子对象发生变化，深拷贝对象都不会变化。
+		
+		a_list=['abc','efg',['h','j','k']]
+		b_list=a_list    ##赋值
+		c_list=copy.copy(a_list)   ##浅拷贝
+		d_list=copy.deepcopy(a_list)   ##深拷贝
+		
+		a_list.append('xyz')   ##修改主元素
+		a_list=['abc','efg',['h','j','k'],'xyz']
+		b_list=['abc','efg',['h','j','k'],'xyz']
+		c_list=['abc','efg',['h','j','k']]
+		d_list=['abc','efg',['h','j','k']]
+		
+		a_list.[2][0]='hhhh'   ##修改子元素
+		a_list=['abc','efg',['hhhh','j','k']]
+		b_list=['abc','efg',['hhhh','j','k']]
+		c_list=['abc','efg',['hhhh','j','k']]
+		d_list=['abc','efg',['h','j','k']]	
+	
+	数字列表处理函数
+		min(list) 取得列表最小值
+		max(list)  取得列表最大值
+		sum(list) 取得列表的和
+		
+		a_list=[1,2,3,4]
+		min(a_list) => 1
+		max(a_list) => 4 
+		sum(a_list) => 10
+		
+	
 	
 8. 元组
 	使用（）创建元组，创建包含一个或多个元素的元组时，每一个元组后面都要跟‘，’，即使一个元素，也要跟‘，’，多个元素时，最后一个‘，’可以省略。
@@ -476,4 +545,28 @@ python  学习笔记
 14. 查询安装的模块
 	在命令行查看模块：	pip list
 	在python shell中查看模块：  help('modules')
+	
+15 turtle 绘图库
+	turtle.setup(x,y,startx,starty): turtle创建窗体，startx,starty是相对于显示屏的坐标位置，x是窗体的宽带，y是窗体的高度。
+	
+	turtle 绘图坐标系： 窗体的中心为坐标原点(0,0)
+	turtle.goto(x,y) : 绘图坐标系，前进到窗体的X,Y位置，并进行路径绘图。
+	
+	turtle 相对坐标系：就是相对当前海龟的位置。
+	turtle.forward(x) 别名turtle.fd(x) : 相对于当前位置向前x像素，并进行路径绘图。
+	turtle.bk(x) : 相对于当前位置向后x像素，并进行路径绘图。
+	turtle.circle(r,angle): 指画笔从当前位置左侧半径为r的中心圆点，画angle角度的弧形。如果angle不给出，则画整个圆形。
+	
+	turtle.seth(angle) : 改变海龟行进方向，但是不进行绘制图形，angle是绝对角度。即调整画笔绝对角度为angle。
+	
+	turtle.left(x)： 相对于当前角度，向左转X度。
+	turtle.right(x): 相对于当前角度，向右转X度。
+	
+	
+	turtle.colormode(mode) : 设置RGB色彩模式，mode为1.0时，RGB使用小数值模式；mode为255时，RGB使用整数值模式。
+	
+	turtle.penup()  别名： turtle.pu()  : 指画笔拿起，不在画
+	turtle.pendown()  别名： turtle.pd() :  指画笔放下，可以进行绘画。
+	turtle.pensize(width)  别名： turtle.width(width) : 设置画笔宽度。
+	turtle.pencolor(color)  : 设置笔的颜色。
 	
