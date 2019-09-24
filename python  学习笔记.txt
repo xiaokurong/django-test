@@ -171,13 +171,30 @@ python  学习笔记
 		
 	strip() 将字符串开始(左侧)和末尾(右侧)多余的空白删除
 		language = ' Python '
-		language.lstrip()  => 'Python'
+		language.strip()  => 'Python'
+	
+	strip(xyz) 将字符串开始(左侧)和末尾(右侧)出现的xyz删除
+		language = ' Python '
+		language.lstrip(" Pn")  => 'ytho'
 		
 	eval()去掉外侧的引号，并执行余下的语句
 		eval('1+2') => 3
 		eval('"1+2"') => "1+2"
 		eval("print('hello')")  => 'hello'
 	
+	chr(xxx)将xxx转换为unicode编码对应的符号
+		chr(63)  ==> "?"
+	
+	字符串格式化
+	"{}xy".format(x) : 将x输出到{}位置
+		"{} - 12 - 01 星期{}".format(2019,"日")  ==> "2019 - 12 - 01 星期日"
+		
+	格式化高级用法
+	{index:<填充><对齐><宽度><数字的千分位><.精度><类型>} ： index指后面输出的索引号，填充指需要填充空余的字符，对齐有 ： < 左对齐， > 右对齐 ^ 居中；宽度是指输出的字符占用宽度，数字千分位是指用“，”标识的数字标识；精度是指浮点数小数精度或字符串最大输出长度；类型包含: b,c,d,o,x,X,e,f,% 等。
+	"{0:=^10}".format("python") ==> "==python=="
+	"{0:,.2f}".format(1234.567) ==> "1,234.57"
+	"{1:b}".format("python",2) ==> "10"  ##二进制表示
+		
 7. 列表
 	使用[]或list（）创建列表，列表有零个或多个元素组成，元素之间用“，”隔开。
 		empty_list =[]    another_empty_list = list()
@@ -485,6 +502,11 @@ python  学习笔记
 		else:
 			doing
 			
+	紧凑形式条件语句
+	表达式1 if  条件 else 表达式2 ： 当if语句的条件成立时，输出表达式1，否则输出表达式2
+		print（ 2 if 3>5 else 3) ==> 3
+		
+			
 	假值，以下情况被认为是false：
 		布尔		false
 		null类型	none
@@ -503,8 +525,30 @@ python  学习笔记
 			count +=1
 		==> 1 2 3 4 5
 	
-	使用break跳出循环
-	使用continue跳到循环开始
+		使用break跳出循环
+		使用continue跳到循环开始
+	
+	异常处理
+		try：
+			语句1
+		except ： 
+			语句2
+	
+		如果语句1没有异常，则执行语句1，并执行后续的语句，不执行语句2；如果有异常，则执行语句2，不执行语句1.
+		
+	高级异常语句
+		try：
+			语句1
+		except：
+			语句2
+		else：
+			语句3
+		finally：
+			语句4
+		
+		如果语句1没有异常，则按需求执行语句3，最后执行语句4；如果有异常，则执行语句2，最后执行语句4。
+		
+		
 	
 12. 迭代器
 	for 迭代器，在未知数据结构长度的情况下遍历数据结构
@@ -516,6 +560,13 @@ python  学习笔记
 		==>d
 		==>e
 		==>f
+	
+	for x in range(y):
+		语句1
+	else：
+		语句2
+	当语句1正常循环结束，最后再执行语句2；如果语句1中含有break，则不再执行语句2.
+	
 	zip（）对多个序列进行迭代，如果序列长度不等，则迭代到最短队列为止。
 		days=['monday','tuesday','wedensday']
 		fruits=['banana','grape','apple']
@@ -569,4 +620,86 @@ python  学习笔记
 	turtle.pendown()  别名： turtle.pd() :  指画笔放下，可以进行绘画。
 	turtle.pensize(width)  别名： turtle.width(width) : 设置画笔宽度。
 	turtle.pencolor(color)  : 设置笔的颜色。
+	
+	turtle.gap() : 在绘制图形时，增加间隙
+	turtle.write(XX,font=()) : 绘制字符，并设置字符的字体样式
+	turtle.turtlehide() : 隐藏箭头
+	
+16 time库
+	time() 获取从1970年1月1日0时0分开始到现在的秒数
+		time.time()  ==>  1568790861.4843938
+		
+	ctime() 获取人类可以阅读的时间
+		time.ctime() ==> 'Wed Sep 18 15:15:09 2019'
+		
+	gmtime( ) 获取计算机可以识别的时间
+		time.gmtime() ==> time.struct_time(tm_year=2019, tm_mon=9, tm_mday=18, tm_hour=7, tm_min=15, tm_sec=59, tm_wday=2, tm_yday=261, tm_isdst=0)
+		
+	strftime(x,y) 使用指定的格式输出时间，其中 Y 代表年，m 代表月，d 代表日，H代表24小时制下的小时，M代表分钟，S代表秒，B代表月份，b代表简写的月份，A代表星期，a代表简写的星期，I代表12小时制下的小时，p代表上午下午。
+		t = time.gmtime()
+		time.strftime("%Y-%m-%d  %H:%M:%S",t) ==> "2019-09-18 15:15:09"
+		
+	strptime(x,y) 将时间字符串转换为电脑可以识别的时间格式
+		tstr = "2019-09-18 15:15:09"
+		time.strptime(tstr,"%Y-%m-%d  %H:%M:%S") ==> time.gmtime() ==> time.struct_time(tm_year=2019, tm_mon=9, tm_mday=18, tm_hour=7, tm_min=15, tm_sec=09, tm_wday=2, tm_yday=261, tm_isdst=0)
+		
+	perf_counter() 获取一个cpu级别的精确时间计数值
+		time.perf_counter() ==> 161.6059371418052
+		
+	sleep(x) 使程序休眠x秒
+		time.sleep(3)
+		
+17. random库
+	seed（X）设定随机数种子，如果设定了种子，则每次设定种子后的随机数都是相同,主要是为了重现随机数，便于测试。如果不设定种子，则每次的随机数都不一样。
+	random（）产生随机数
+		random.seed(10) 
+		random.random() ==> 0.5714025946899135
+		random.seed(10) 
+		random.random() ==> 0.5714025946899135
+		random.random() ==>0.4288890546751146
+	
+	randint(a,b) 随机生成a,b之间的整数
+		random.randint（10，20）  ==> 17
+		
+	randrange(m,n,k) 随机生成m，n之间以k为步长的整数。
+		random.randrange(10,100,10) ==> 80
+		
+	getrandbits(k) 生成一个k比特长的随机整数
+		random.getrandbit(4) ==> 7
+		
+	uniform(a,b) 生成a,b之间的随机小数
+		random.uniform(10,20) ==> 18.1332125135732
+		
+	choice(list)  从list中随机选出一个值。
+		random.choice([1,2,3,4,5])  ==> 3
+		
+	shuffle(list) 将list的顺序打乱，成随机排序，但是不输出。
+		list=[1,2,3,4,5]
+		random.shuffle(list)
+		print(list)  ==> [5, 2, 4, 1, 3]
+		
+18. 函数
+
+	def function_name (a,b,c) :  定义函数function_name ，参数为a,b,c
+
+	def function（a,b,*arg) : 其中*arg是不确定参数。
+	
+	def function（a,b):
+		return a,b     :return是返回关键字，a,b是返回的数据，结果是（a,b)形式。
+	
+	global a ： 如果函数内部需要使用外部变量，需要使用global x 来引用全局变量。
+	如果组合变量，在函数内部不创建这个变量，则这个组合变量就是全局变量。组合变量指：列表，集合，元祖，字典等多数据类型的值。
+	
+19. 匿名函数lambda
+	lambda <参数> ： <表达式> ：不显示的定义函数名称，直接可以使用的函数。
+		y=lambda a,b : a+b  
+		y(3,4)  ==> 7
+	
+20. pyinstaller 库
+	pyinstaller -h  ##显示帮助信息
+	pyinstaller -F file.name.py   ##将file.name.py脚本文件生成一个单独的可执行文件.EXE的文件
+	pyinstaller --clean   ##删除生成可执行文件时产生的临时文件
+	pyinstaller -D   ##根据源文件生成一个目录，所有需要的文件都在这个目录中，如果要迁移到其他电脑上执行，需要把整个文件夹一起迁移过去，一般不建议使用这种方式，建议使用 -F 方式。
+	pyinstaller -w  ##编译后的程序没有黑色的命令行窗口
+	pyinstaller -i  icon.ico  ##将编译后的程序使用icon.ico这个图标。
 	
