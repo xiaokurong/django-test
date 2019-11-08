@@ -1,121 +1,177 @@
 ﻿django 学习笔记
+
 1. 创建django项目
-命令行下：
-django-admin  startproject project_name
+	命令行下：
+	django-admin  startproject project_name
+	
 
 2. 运行django项目
-命令行下：
-python manage.py runserver 0.0.0.0:8000
+	命令行下：
+	python manage.py runserver 0.0.0.0:8000
+	登录地址： http://127.0.0.1:8000/
 
 3. django项目目录
-|--project_name    ##项目目录
-|   |-- __init__.py   ##空文件，python初始化文件
-|   |-- setting.py    ##django项目的配置文件
-|   |-- urls.py      ##路由配置文件
-|   |-- usgi.py   ##usgi 接口入口
-|--manage.py      ##配置管理工具
+
+	|--project_name    ##项目目录
+	|   |-- __init__.py   ##空文件，python初始化文件
+	|   |-- setting.py    ##django项目的配置文件
+	|   |-- urls.py      ##路由配置文件
+	|   |-- usgi.py   ##usgi 接口入口
+	|--manage.py      ##配置管理工具
+	
+	添加数据库连接参数：
+	
+	编辑setting.py
+	
+		DATABASES = {
+		'default': {
+			'ENGINE': 'django.db.backends.mysql',
+			'NAME': 'vote',
+			'USER': 'root',
+			'PASSWORD': 'De123456',
+			'HOST': 'localhost',
+			'PORT': '3306',
+		}
+	}
+	
 
 4. 创建app
-命令行下：
-django-admin startapp app_name
+	命令行下：
+	django-admin startapp app_name
+	
+	修改配置文件setting.py,添加自定义的app_name
+	
+		INSTALLED_APPS = [
+		'django.contrib.admin',
+		'django.contrib.auth',
+		'django.contrib.contenttypes',
+		'django.contrib.sessions',
+		'django.contrib.messages',
+		'django.contrib.staticfiles',
+		'app_name',     ##新增app_name
+	]
+
 
 5. app目录
-|--app_name    ##app目录
-|   |-- __init__.py   ##空文件，python初始化文件
-|   |-- admin.py    ##配置文件
-|   |-- models.py      ##数据库配置文件
-|   |-- tests.py   ## 
-|   |-- views.py
+	|--app_name    ##app目录
+	|   |-- __init__.py   ##空文件，python初始化文件
+	|   |-- admin.py    ##配置文件
+	|   |-- models.py      ##数据库配置文件
+	|   |-- tests.py   ## 
+	|   |-- views.py
 
 
 6. 创建项目表结构
-python manage.py migrate   # 创建项目表结构
+	python manage.py migrate   # 创建项目表结构,django基础表
 
-python manage.py makemigrations app_name  # 让 Django 知道我们在我们的模型有一些变更
+	python manage.py makemigrations app_name  # 让 Django 知道我们在我们的模型有一些变更
 
-python manage.py migrate app_name   # 创建app表结构
+	python manage.py migrate app_name   # 创建app表结构
 
-python manage.py sqlmigrate blog 0001  ##查看创建表的sql语句
+	可选参数：
+		python manage.py sqlmigrate blog 0001  ##查看创建表的sql语句
 
-python manage.py flush  #清空数据库
+		python manage.py flush  #清空数据库
 
 7. django 数据库支持 
-django 2.1 及以上版本不再支持mysql5.5及以下版本数据库。
+	django 2.1 及以上版本不再支持mysql5.5及以下版本数据库。	
 
 8. django版本选择
-Django 1.5.x 支持 Python 2.6.5 Python 2.7, Python 3.2 和 3.3.
+	Django 1.5.x 支持 Python 2.6.5 Python 2.7, Python 3.2 和 3.3.
 
-Django 1.6.x 支持 Python 2.6.X, 2.7.X, 3.2.X 和 3.3.X
+	Django 1.6.x 支持 Python 2.6.X, 2.7.X, 3.2.X 和 3.3.X
 
-Django 1.7.x 支持 Python 2.7, 3.2, 3.3, 和 3.4 （注意：Python 2.6 不支持了）
+	Django 1.7.x 支持 Python 2.7, 3.2, 3.3, 和 3.4 （注意：Python 2.6 不支持了）
 
-Django 1.8.x 支持 Python 2.7, 3.2, 3.3, 3.4 和 3.5.  （长期支持版本 LTS)
+	Django 1.8.x 支持 Python 2.7, 3.2, 3.3, 3.4 和 3.5.  （长期支持版本 LTS)
 
-Django 1.9.x 支持 Python 2.7, 3.4 和 3.5. 不支持 3.3 了
+	Django 1.9.x 支持 Python 2.7, 3.4 和 3.5. 不支持 3.3 了
 
-Django 1.10.x 支持 Python 2.7, 3.4 和 3.5. 
+	Django 1.10.x 支持 Python 2.7, 3.4 和 3.5. 
 
-Django 1.11.x 支持 Python 2.7, 3.4, 3.5 和 3.6（长期支持版本 LTS) 最后一个支持 Python 2.7 的版本
+	Django 1.11.x 支持 Python 2.7, 3.4, 3.5 和 3.6（长期支持版本 LTS) 最后一个支持 Python 2.7 的版本
 
-Django 2.0.x 支持 Python 3.4, 3.5 和 3.6 （注意，不再支持 Python 2）
+	Django 2.0.x 支持 Python 3.4, 3.5 和 3.6 （注意，不再支持 Python 2）
 
 9. 创建超级管理员
-python manage.py createsuperuser
+	python manage.py createsuperuser
 
-修改用户密码
-python manage.py changepasswod username
+	修改用户密码
+	python manage.py changepasswod username
+
+	创建完管理员后，可以登录后台管理页面
+	http://127.0.0.1:8000/admin/
+
+	将创建的模型添加到后台管理
+	
+	编辑应用下的admin.py文件，添加如下内容
+		from django.contrib import admin
+		from .models import model_name
+
+		# Register your models here.
+		admin.site.register(model_name)
 
 
+	设置null=True，则仅表示在数据库中该字段可以为空，但使用后台管理添加数据时仍然要需要输入值，因为Django自动做了数据验证不允许字段为空。想要在Django中也可以将字段保存为空值，则需要添加另一个参数：blank=True
+	
+	例：
+		class   Hall(models.Model):
+			name = models.CharField(max_length=120)
+			description = models.CharField(max_length=1024,blank=True,null=True)
+
+	
+
+	
 10. 导出数据和导入数据
-python manage.py dumpdata appname > appname.json #导出
-python manage.py loaddata appname.json  #导入
+	python manage.py dumpdata appname > appname.json #导出
+	python manage.py loaddata appname.json  #导入
 
 11. django shell 命令行
-python manage.py shell    #类似python命令行，但是包含了django的库
+	python manage.py shell    #类似python命令行，但是包含了django的库
 
 12. 数据库命令行
-python manage.py dbshell
-引用app的models时，需要加入app的名字，例如
+	python manage.py dbshell
+	引用app的models时，需要加入app的名字，例如
 
-from app_name.models import polls
+	from app_name.models import polls
 
 13. django模板标签
 
-A.) spaceless spaceless标签：移除html标签中的空白字符。包括空格、tab键、换行等。示例代码如下：
+	A.) spaceless spaceless标签：移除html标签中的空白字符。包括空格、tab键、换行等。示例代码如下：
 
-{% spaceless %}
-<p>
-<a href="foo/">Foo</a>
-</p>
-{% endspaceless %}
-那么在渲染完成后，会变成以下的代码：
+	{% spaceless %}
+	<p>
+	<a href="foo/">Foo</a>
+	</p>
+	{% endspaceless %}
+	那么在渲染完成后，会变成以下的代码：
 
-<p><a href="foo/">Foo</a></p>
-spaceless 只会移除html标签之间的空白字符。
+	<p><a href="foo/">Foo</a></p>
+	spaceless 只会移除html标签之间的空白字符。
 
-B.)autoescape 
-autoescape标签：开启和关闭这个标签内元素的自动转义功能。自动转义是可以将一些特殊的字符。比如 < 转义成 html 语法能识别的字符，会被转义成 &lt; ，而 > 会被自动转义成 &gt; 。模板中默认是已经开启了自动转义的。 autoescape 的示例代码如下：
-# 传递的上下文信息context = {"info":"<a href=‘www.baidu.com‘>百度</a>"}
-# 模板中关闭自动转义
+	B.)autoescape 
+	autoescape标签：开启和关闭这个标签内元素的自动转义功能。自动转义是可以将一些特殊的字符。比如 < 转义成 html 语法能识别的字符，会被转义成 &lt; ，而 > 会被自动转义成 &gt; 。模板中默认是已经开启了自动转义的。 autoescape 的示例代码如下：
+	# 传递的上下文信息context = {"info":"<a href=‘www.baidu.com‘>百度</a>"}
+	# 模板中关闭自动转义
 
-{% autoescape off %}
-　　{{ info }}
-{% endautoescape %}
-那么就会显示百度的一个超链接。如果把 off 改成 on ，那么就会显示成一个普通的字符串。示例代码如下：
+	{% autoescape off %}
+	　　{{ info }}
+	{% endautoescape %}
+	那么就会显示百度的一个超链接。如果把 off 改成 on ，那么就会显示成一个普通的字符串。示例代码如下：
 
-{% autoescape on %}
-{{ info }}
-{% endautoescape %}
+	{% autoescape on %}
+	{{ info }}
+	{% endautoescape %}
 
 
 14. 查看django版本
-A.) 在python shell中
-	import django
-	print (django.VERION)
-	
-B.) 在命令行下
-	python -m django --version
-	
+	A.) 在python shell中
+		import django
+		print (django.VERION)
+		
+	B.) 在命令行下
+		python -m django --version
+		
 15. 文件相互调用
 	url		｛  .views  
 	     	 |  django.config.path
@@ -126,22 +182,22 @@ B.) 在命令行下
 			 |
 			 
 16. 静态文件引用
-在项目setting文件中，添加app的静态文件路径，例如：
-STATICFILES_DIRS = (
-    os.path.join(HERE, 'static/'),
-    os.path.join(HERE,'polls/static/'),
-    os.path.join(HERE,'saltapi/static/'),
-)
+	在项目setting文件中，添加app的静态文件路径，例如：
+	STATICFILES_DIRS = (
+		os.path.join(HERE, 'static/'),
+		os.path.join(HERE,'polls/static/'),
+		os.path.join(HERE,'saltapi/static/'),
+	)
 
-在app目录下建立相应的文件夹‘static',之后再建立app名字的文件夹，以便于跟其他app区别开来。上例为’saltapi‘，然后把相应的静态文件，如css文件，图片等放在此目录下，如果文件较多，也可分类放置在子文件夹下。
-模板文件引用静态文件方法：
-在模板的head中添加路径引用：
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'saltapi/home.css' %}">
+	在app目录下建立相应的文件夹‘static',之后再建立app名字的文件夹，以便于跟其他app区别开来。上例为’saltapi‘，然后把相应的静态文件，如css文件，图片等放在此目录下，如果文件较多，也可分类放置在子文件夹下。
+	模板文件引用静态文件方法：
+	在模板的head中添加路径引用：
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'saltapi/home.css' %}">
 
-当多个css设置时，优先级如下：
-内联样式）Inline style > （内部样式）Internal style sheet >（外部样式）External style sheet > 浏览器默认样式
-注意：如果外部样式放在内部样式的后面，则外部样式将覆盖内部样式
+	当多个css设置时，优先级如下：
+	内联样式）Inline style > （内部样式）Internal style sheet >（外部样式）External style sheet > 浏览器默认样式
+	注意：如果外部样式放在内部样式的后面，则外部样式将覆盖内部样式
 
 17. models 字段定义
 	1、models.AutoField　　自增列=int(11)
@@ -182,42 +238,42 @@ STATICFILES_DIRS = (
 	24、models.FilePathField 文件
 
 18. 外键删除处理方式
-1、常见的使用方式(设置为null)
+	1、常见的使用方式(设置为null)
 
-class BookModel(models.Model):
-    """
-    书籍表
-    """
-    book_name = models.CharField(max_length=100, verbose_name='书名')
-    # 表示外键关联到作者表,当作者表删除了该条数据,图书表中不删除,仅仅是把外键置空
-    author = models.ForeignKey(AuthModel, null=True, blank=True, on_delete=models.SET_NULL)
-    price = models.FloatField(verbose_name='价格')
-    create_time = models.DateTimeField(auto_now_add=True, verbose_name='添加时间')
+	class BookModel(models.Model):
+		"""
+		书籍表
+		"""
+		book_name = models.CharField(max_length=100, verbose_name='书名')
+		# 表示外键关联到作者表,当作者表删除了该条数据,图书表中不删除,仅仅是把外键置空
+		author = models.ForeignKey(AuthModel, null=True, blank=True, on_delete=models.SET_NULL)
+		price = models.FloatField(verbose_name='价格')
+		create_time = models.DateTimeField(auto_now_add=True, verbose_name='添加时间')
 
-关于别的属性的介绍
+	关于别的属性的介绍
 
-CASCADE:这就是默认的选项，级联删除，你无需显性指定它。
-PROTECT: 保护模式，如果采用该选项，删除的时候，会抛出ProtectedError错误。
-SET_NULL: 置空模式，删除的时候，外键字段被设置为空，前提就是blank=True, null=True,定义该字段的时候，允许为空。
-SET_DEFAULT: 置默认值，删除的时候，外键字段设置为默认值，所以定义外键的时候注意加上一个默认值。
-SET(): 自定义一个值，该值当然只能是对应的实体了
+	CASCADE:这就是默认的选项，级联删除，你无需显性指定它。
+	PROTECT: 保护模式，如果采用该选项，删除的时候，会抛出ProtectedError错误。
+	SET_NULL: 置空模式，删除的时候，外键字段被设置为空，前提就是blank=True, null=True,定义该字段的时候，允许为空。
+	SET_DEFAULT: 置默认值，删除的时候，外键字段设置为默认值，所以定义外键的时候注意加上一个默认值。
+	SET(): 自定义一个值，该值当然只能是对应的实体了
 
 19. 数据库基本操作
- d.django表数据的增删查改
+	 d.django表数据的增删查改
 
-  models.py中:
+	  models.py中:
 
-  class Person(models.Model):
-    name = models.CharField(max_length=30)
-    age = models.IntegerField()
+	  class Person(models.Model):
+		name = models.CharField(max_length=30)
+		age = models.IntegerField()
 
- 增加: models.Person.objects.create(name='zhouqiang',age=30)
+	 增加: models.Person.objects.create(name='zhouqiang',age=30)
 
- 删除: models.Person.objects.filter(name='zhouqiang').delete()
+	 删除: models.Person.objects.filter(name='zhouqiang').delete()
 
- 查找: models.Person.objects.all()
+	 查找: models.Person.objects.all()
 
- 修改: models.Person.objects.filter(name='zhouqiang').update(age=40)
+	 修改: models.Person.objects.filter(name='zhouqiang').update(age=40)
 
 20. 模板调用数据库信息
      {% for key in person_set %}
@@ -226,51 +282,376 @@ SET(): 自定义一个值，该值当然只能是对应的实体了
       {% endfor %}
  
 21. 模板调用视图中的变量名称，为字典的键而非值，注意。
-例如：
-views中定义
-def test(request):
-	render(request,'test.html',{'test1': test2 })
-	
-templete 定义：
+	例如：
+	views中定义
+	def test(request):
+		render(request,'test.html',{'test1': test2 })
+		
+	templete 定义：
 
-{{ test }}
+	{{ test }}
 
 22. python 不支持多级字典赋值
-例：
-dict1={}
-dict1['a']['b']='c'   ##提示key error，
+	例：
+	dict1={}
+	dict1['a']['b']='c'   ##提示key error，
 
-23. django 模板轮训字典方法
-模板文件：
-{% for key,value in dicts.items %} 
-  <tr class="{% cycle 'altrow' '' %}">             
-    <td>{{ forloop.counter }}</td>           
-    <td>{{ key }}</td>           
-    <td>{{ value }}</td>           
-  </tr>          
-{% endfor %}
+	23. django 模板轮训字典方法
+	模板文件：
+	{% for key,value in dicts.items %} 
+	  <tr class="{% cycle 'altrow' '' %}">             
+		<td>{{ forloop.counter }}</td>           
+		<td>{{ key }}</td>           
+		<td>{{ value }}</td>           
+	  </tr>          
+	{% endfor %}
 
 24. django 模型赋值
-给具有外键的模型赋值和查询比较特殊。
+	给具有外键的模型赋值和查询比较特殊。
 
-外键引用
-class User(models.Model):
-	username = models.CharField(max_length=25)
-	usergroup = models.ForeignKey(Group,null=True,blank=True,on_delete=models.SET_NULL)
+	外键引用
+	class User(models.Model):
+		username = models.CharField(max_length=25)
+		usergroup = models.ForeignKey(Group,null=True,blank=True,on_delete=models.SET_NULL)
+		
+	class Group(models.Model):
+		groupname = models.CharField(max_length=25)
+		
+	user_set = User.objects.all()
+	for i in user_set:
+		print(i.usergroup.groupname)
+		
+	外键赋值
+	user.usergroup = Group.objects.get(id=1)
+
+	删除数据
+	deluser= User.objects.get(id=1)
+	deluser.delete()
+
+	通过主表查子表
 	
-class Group(models.Model):
-	groupname = models.CharField(max_length=25)
+25. views视图
+	单独应用应该创建自己的urls.py和views.py文件，创建后在主项目的urls.py文件中引用应用的urls.py文件，即可
+	例如：
+		项目 urls.py  , 应用名字为: vote
+			from django.contrib import admin
+			from django.urls import path,include
+			app_name = 'vote'
+
+			urlpatterns = [
+				path('admin/', admin.site.urls),
+				path('vote/',include('vote.urls',namespace='vote')),
+
+			]
+		
+26. template 模板文件
+	主项目的模板文件路径和app的最上级路径平级。而app的模板文件路径在app的内部。
+	例：
+	programA
+	-->programA
+	-->Template
+	-->App_name
+	---->Template
+
+	另外，需要修改项目的setting.py文件，添加模板文件路径
 	
-user_set = User.objects.all()
-for i in user_set:
-	print(i.usergroup.groupname)
+	TEMPLATES = [
+		{
+			'DIRS': [os.path.join(BASE_DIR,'templates')],
+			'APP_DIRS': True,    ##启用app内模板
+		},
+	]
 	
-外键赋值
-user.usergroup = Group.objects.get(id=1)
 
-删除数据
-deluser= User.objects.get(id=1)
-deluser.delete()
+27. 路由 route
+	项目的urls.py文件，是设置项目的路由，app的路由也需要添加在这个文件中。项目的路由匹配是从ip地址后直接开始匹配，而app的路径匹配在app的名字后，在进行匹配
+	例： app_name=vote , 
+	
+		from django.contrib import admin
+		from django.urls import path,include
+		from . import views
+		# app_name = 'vote'
 
-通过主表查子表
+		urlpatterns = [
+			path('',views.index, name='index'),
+			path('admin/', admin.site.urls),
+			path('vote/',include('vote.urls',namespace='vote')),  ##添加app的路由文件，路由匹配也是在vote/之后匹配。
+		]
+		
+28. model中定义的choices选项显示，使用内建方法调用。
+	例：
+	from django.db import models
 
+	class Person(models.Model):
+		SHIRT_SIZES = (
+			('S', 'Small'),
+			('M', 'Medium'),
+			('L', 'Large'),
+		)
+		name = models.CharField(max_length=60)
+		shirt_size = models.CharField(max_length=2, choices=SHIRT_SIZES)
+		
+	>>> p = Person(name="Fred Flintstone", shirt_size="L")
+	>>> p.save()
+	>>> p.shirt_size
+	'L'
+	>>> p.get_shirt_size_display()
+	'Large'	
+	
+	
+
+29. 数据库建模错误
+ 执行manage.py migrate解决报错： django.db.utils.OperationalError: (1050, "Table '表名' already exists）
+	 根据stackoverflow上找到解决方案，执行：
+		python manage.py migrate myapp --fake
+		数据库表结构同步成功。
+
+	
+30. F查询
+	F 使用查询条件的值,专门取对象中某列值的操作
+
+	from django.shortcuts import render, HttpResponse
+	from app01 import models
+	from  app01.models import Book,Author,Publisher
+	from django.db.models import Avg,Min,Sum,Max
+	from django.db.models import F
+
+	# 书籍的价格都加20
+	def data_oper(req):
+		models.Book.objects.all().update(price=F("price")+20)
+		return HttpResponse("Hello world")
+		
+31. Q 查询
+	Q 构建搜索条件
+
+	from django.shortcuts import render, HttpResponse
+	from app01 import models
+	from  app01.models import Book,Author,Publisher
+	from django.db.models import Avg,Min,Sum,Max
+	from django.db.models import F,Q
+	from django.db.models import F,Q
+
+	# 查询 book 表 id 为3的书名，这里书名是因为在 models.py 定义的 class Book 里面 __str__ 返回的是 title 字段
+	def data_oper(req):
+		obj = models.Book.objects.filter(Q(id=3))[0]
+		print(obj)
+		return HttpResponse("Hello world")
+		
+32. annotate
+	可以通过计算查询结果中每一个对象所关联的对象集合，从而得出总计值(也可以是平均值或总和)，即为查询集的每一项生成聚合。
+
+	from django.shortcuts import render, HttpResponse
+	from app01 import models
+	from  app01.models import Book,Author,Publisher
+	from django.db.models import Avg,Min,Sum,Max
+
+	def data_oper(req):
+		# 查询每个出版社书的总价
+		obj = models.Book.objects.values("publisher__name").annotate(Sum("price"))
+		print(obj)
+		return HttpResponse("Hello world")
+	
+33. 获取对象有以下方法：
+
+	Person.objects.all()
+
+	Person.objects.all()[:10] 切片操作，获取10个人，不支持负索引，切片可以节约内存
+
+	Person.objects.get(name=name)
+
+
+
+	get是用来获取一个对象的，如果需要获取满足条件的一些人，就要用到filter
+
+	Person.objects.filter(name="abc")  # 等于Person.objects.filter(name__exact="abc") 名称严格等于 "abc" 的人
+
+	Person.objects.filter(name__iexact="abc")  # 名称为 abc 但是不区分大小写，可以找到 ABC, Abc, aBC，这些都符合条件
+
+
+
+	Person.objects.filter(name__contains="abc")  # 名称中包含 "abc"的人
+
+	Person.objects.filter(name__icontains="abc")  #名称中包含 "abc"，且abc不区分大小写
+
+
+
+	Person.objects.filter(name__regex="^abc")  # 正则表达式查询
+
+	Person.objects.filter(name__iregex="^abc")  # 正则表达式不区分大小写
+
+
+
+	filter是找出满足条件的，当然也有排除符合某条件的
+
+	Person.objects.exclude(name__contains="WZ")  # 排除包含 WZ 的Person对象
+
+	Person.objects.filter(name__contains="abc").exclude(age=23)  # 找出名称含有abc, 但是排除年龄是23岁的
+
+34. ORM 学习记录
+	ORM 类  --》 表
+	    对象--》 一行数据
+		属性--》 字段
+		
+	单表字段类型
+		Auto = models.AutoField()  ##自增长字段
+		BigAuto = models.BigAutoField()  ##比上面支持的数据范围更大。
+		Binary = models.BinaryField() ##　二进制
+		Boolen = models.BooleanField()  ## 布尔型，不能为空
+		NullBooleanField　= models.NullBooleanField　　##允许为空的布尔类型
+		PositiveSmallInteger = models.PositiveSmallIntegerField() ##5个字节长度，正整数
+		SmallInteger = models.SmallIntegerField() ##6个字节长度，正负都行
+		PositiveInteger = models.PositiveIntegerField()  ##10个字节长度,正整数
+		Integer = models.IntegerField()  ##11个字节长度
+		BigInteger = models.BigIntegerField()  ##20个字节长度
+		Char = models.CharField()  ##字符串类型，需要指定长度
+		Text = models.TextField()　　##长字符串，不需要指定长度
+		Float = models.FloatField()　　##浮点类型
+		Decimal　= models.DecimalField()　##浮点类型，需要指定整数多少位，小数多少位
+		Email = models.EmailField()　　##邮箱类型
+		Image = models.ImageField()  ##图片类型
+		File = models.FileField()  ##文件类型
+		FilePath = models.FilePathField()  ##文件路径
+		URL = models.URLField()　　##字符串类型，地址正则表达式
+		UUID = models.UUIDField()   ##uuid类型
+		GenericIPAddress = models.GenericIPAddressField　　##字符串类型（ip4和ip6是可选的
+	
+	关系表字段类型
+		onetoone = models.OneToOneField()   ##一对一关系
+		foreign = models.ForeignKey()   ##一对多关系
+		manytomany = models.ManyToManyField  ##多对多关系
+		
+	字段属性--所有都有的属性
+		db_column='name'  ## 更改字段的名称
+		primary_key=True   ##是否设置为主键
+		verbose_name='name'  ##设置字段的备注名字
+		unique=True ## 设置字段是否唯一，及是否可以重复
+		null=True, blank=True  ##null是设置数据库字段是否可以为空，blank是设置django中字段是否为空。
+		db_index=True ##使用当前列建立索引
+		help_text='message'  ##设置字段帮助信息
+		editable=False ##设置字段是否可以编辑
+		
+	字段属性--特定类型的属性
+		CharField ==》 max_length=10  ##设置字符串最大长度。
+		DateField ==> unique_for_date=True  ##设置时间不能重复
+				  ==>  auto_now=True  ##设置自动修改为当前时间
+				  ==》 auto_now_add=True ##设置在添加数据时的时间
+				  ==》 unique_for_month=True ## 设置月份不能重复
+		DecimalField ==> max_digits=4  ##设置数字最大长度
+					 ==》decimal_places=2  ##设置数字小数点为长度
+					 
+	字段属性--关系表
+		related_name='name'  ##反向查询时，使用的名字
+		on_delete=models.CASCADE  ##父表删除时，字表也删除数据，级联删除
+		on_delete=models.PROTECT  ##父表删除时，数据库会报错，不允许删除
+		on_delete=models.SET_NULL  ##父表删除时,子表会置空，同时要设置允许空值，即null=True,blank=True
+		on_delete=models.SET_DEFAULT  ##父表删除时,子表会设置为默认值，需要设置默认值，即default=0
+		on_delete=models.DO_NOTHING  ##父表删除时,子表什么也不操作。
+		on_delete=models.SET（）  ##父表删除时,子表会传递给set（）一个值或一个回调函数的返回值。
+		
+	自关联表
+		就表中的字段和自己进行关联，通常用于地址选项使用。
+		例：
+		class AddressInfo(models.Model):
+			address=models.CharField(max_length=200,null=True,blank=True,verbose_name='地址‘)
+			pid=models.ForeignKey('self',null=True,blank=True,verbose_name='自关联’)  ##写法一
+			pid=models.ForeignKey('AddressInfo',null=True,blank=True,verbose_name='自关联’)  ##写法二
+			
+			def __str__(self):
+				return self.address    ##调用时返回的字段
+				
+		最终的数据表内容：
+		id     address      pid
+		1      河南         null
+		2      郑州          1
+		3      开封          1
+		4      二七区        2
+		
+
+	 元数据属性
+		定义在表中的子类。主要是定义一些跟数据库关联的属性
+		写法：
+		class Address(models.Model):
+			address=models.CharField(max_length=200,null=True,blank=True,verbose_name='地址‘)
+			class Meta:
+				db_table = 'address'   ##修改数据库中的表的名字
+				ordering= ['pid']  ##指定按照什么字段排序
+				verbose_name = 'addressinfo'  ##设置表的注释名字
+				verbose_name_plural= 'addressinfos‘ ##设置表的复数注释名字
+				abstract = True ##设置此表为基类，不创建表，作为其他表的母表。
+				permissions = (('定义好的权限’,'权限说明'），())  ##设置表的权限
+				managed = False 
+				unique_together = ('address','pid')  ##设置表的联合唯一键
+				app_label = 'vote'   ##设置表的app名字
+				db_tablespace  ##定义数据库表空间
+				
+	  导出数据
+		 python manage.py dumpdata > filename.json   ##将数据库中的数据导出到filename.json文件中
+		 
+	  导入数据
+	     python manage.py  loaddata filename.json  ##将数据文件filename.json导入到数据库中
+	
+	  查询结果集 QuerySet API  常用函数返回结果也是 QuerySet
+		 1. all() ## 查询所有数据
+			filter()  ##过滤查询
+			order_by() ##调整排序顺序
+			exclude()  ##排除某条数据
+			reverse()  ##反向查询，需要在model.py文件中先定义排序，才能在这里修改。如果不设置会报错。
+			distinct( ) ##去除重复数据
+			
+		  2. extra()  ##为所选字段去别名  例： Table.objects.all().extra(select={"别名": "原始字段名"})   再次调用时，使用Table.别名 调用。
+		     defer()  ##查询时排除某些字段
+			 only()  ##查询时，仅仅使用列出的字段
+			 
+		  3. values()  ##输出字典形式的值
+		     values_list()  ##输出元祖形式的值
+			 values_list(,flat=True)  ##如果输出单个字段，使用flat=True，可以输出列表形式的值
+			 
+		  4. dates(字段，kind，升降排序)  ##根据日期筛选数据，其中kind必须是："year","month","day"
+			 datetimes(字段，kind,升降序)  ##根据日期时间筛选数据，其中kind必须是："year","month","day"，"hour","minute","second"
+			 
+		  5. union()  ##输出两个结果集的并集
+		     intersection()  ##输出两个结果集的交集，注意使用mysql数据库不支持此查询。
+			 difference()  ##输出两个结果集的差集，注意使用mysql数据库不支持此查询。
+			 
+		  6. select_related()  ##一对一，多对一查询优化，
+		     prefetch_related()  ##一对多，多对多查询优化。
+			 
+		  7. annotate()  ##聚合函数，来计算分组后的计数，求和，平均数等。
+		     raw()  ##执行原生的sql语句。
+			 
+		  查询结果集 QuerySet API  常用函数返回结果不是 QuerySet
+		  
+		  1. 获取对象
+		     get() ##返回一条数据对象
+		     get_or_create()  ##返回或者创建对象，如果没有请求的对象则创建这个对象
+			 first()  ##返回第一个对象
+			 last()  ##返回最后一个对象
+			 latest()  ##返回最新的一个对象，如果使用这个函数，必须在model的Meta中定义：get_latest_by 
+			 earliest()  ##返回最早（旧）的一个对象，如果使用这个函数，必须在model的Meta中定义：get_latest_by 
+			 in_bulk()  ##批量返回多个对象，需要传递一个主键列表，做过滤
+			 
+		   2. 创建对象
+			  create()  ##创建一个对象
+			  bulk_create()  ##批量创建多个对象
+			  update_or_create()  ##创建或更新对象，如果对象存在则更新，如果不存在则创建。
+			  
+		   3. 更新对象
+			   update()  ##更新对象信息
+			   update_or_create()  ##创建或更新对象，如果对象存在则更新，如果不存在则创建。
+			   
+		   4. 删除对象
+			  delete()  ##删除对象，使用filter过滤
+				
+		   5.其他操作
+			  exists()  ##判断对象是否存在
+		      count()  ##统计对象数量
+			  aggregate()  ##全表进行汇总，求和，求平均数，统计数量等等
+				 
+		F对象和Q对象
+			F对象：操作字段的数据
+			例：批量更新某一个字段的值
+				Table.objects.update(price=F('price')-10)  ##将表中所有价格减少10
+				
+			Q对象：结合AND,OR,NOT, |,~ ,& 实现复杂的查询
+			
+			 

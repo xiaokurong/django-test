@@ -89,9 +89,11 @@ python  学习笔记
 	len(letter=‘abcdefg’)  = 7
 	
 6. 字符串函数
-	split(args) 根据分隔符分割字符串,以列表的形式输出结果。如果不指定分隔符，那么split() 将默认使用空白字符——换行符、空格、制表符。
+	split(args,maxsplit=-1) 根据分隔符分割字符串,以列表的形式输出结果。如果不指定分隔符，那么split() 将默认使用空白字符——换行符、空格、制表符。maxsplit是字符串分割的数量，默认为-1，表示不限制数量。如果设置了数字，则最大分割数量为maxsplit+1.
 		letters =‘abc,def,ghi’
 		letters.split(',')  => ['abc','def','ghi']
+		letters.split(',',1)  => ['abc','def,ghi']
+		
 	
 	join(args) 将包含若干子串的列表分解，并将这些子串合成一个完整的大的字符串,并用连接符连接子串。
 		letter_list=['abc','def','ghi']
@@ -420,7 +422,7 @@ python  学习笔记
 		dict2= dict1.copy()  => dict2={'a':'b','c':'d',}
 		
 10. 集合
-	集合就像舍弃了值，仅剩下键的字典一样。键与键之间不能重复。
+	集合就像舍弃了值，仅剩下键的字典一样。键与键之间不能重复。集合是不可变数据组成的。
 	
 	set() 创建集合
 		empty_set = set() ##空集合的显示是“set()”
@@ -433,31 +435,39 @@ python  学习笔记
 		set1 = {'a','b','c'}
 		'a' in set1  => True
 	
-	集合的交集&
-		set1 = {'a','b','c'}
-		set2 = {'c','d','e'}
-		set1&set2 => {'c'}
-		
-	集合的函数intersection()获得集合的交集
-		set1 = {'a','b','c'}
-		set2 = {'c','d','e'}
-		set1.intersection(set2) => {'c'}
+
 		
 	集合的并集，使用 | 或 union()函数
 		set1 = {'a','b','c'}
 		set2 = {'c','d','e'}
 		set1 | set2 => {'a','b','c','d','e'}
 		set1.union(set2) =>{'a','b','c','d','e'}
+		
 	集合的差集（出现在第一个集合而不出现在第二个集合中），使用 - 或者 difference()函数。
 		set1 = {'a','b','c'}
 		set2 = {'c','d','e'}
 		set1 - set2 => ｛'a','b'｝
+	
+	集合的交集&，或者函数intersection()获得集合的交集
+		set1 = {'a','b','c'}
+		set2 = {'c','d','e'}
+		set1&set2 => {'c'}
+		set1.intersection(set2) => {'c'}
 		
-	集合的异或集（仅在两个集合中出现一次），使用^或者symmetric_difference()函数。
+	集合的补集（仅在两个集合中出现一次）或者称为异或集，使用^或者symmetric_difference()函数。
 		set1 = {'a','b','c'}
 		set2 = {'c','d','e'}
 		set1^set2 => ｛'a','b'，'d','e'｝
 		set1.symmetric_difference(set2) =>｛'a','b'，'d','e'｝
+		
+	以上四种集合操作，不对集合本身产生修改，会生成一个新的集合。还有相对应的4中增强操作符，会对集合产生修改操作。
+	
+	增强操作符
+		并集增强操作符  |=
+			S |= T  ：修改S集合，使之为S和T的并集。
+			S -= T  : 修改S集合，使之为S和T的差集。
+			S &= T  : 修改S集合，使之为S和T的交集。
+			S ^= T  : 修改S集合，使之为S和T的补集。
 		
 	集合的子集，使用<= 或者issubset()判断一个集合是否是另一个集合的子集（第一个集合的所有元素都出现在第二个集合中）
 		set1 = {'a','b','c'}
@@ -483,6 +493,41 @@ python  学习笔记
 		set1 = {'a','b','c','d','e'}
 		set1 > set2  ==> True
 		set1 > set1  ==> False  ##集合不是自身的真超集
+		
+	add(x) ：如果x不在集合中，将x增加到集合中。
+		set1 = {'a','b','c'}
+		set1.add('d')  ==>{'a','b','c','d'}
+		
+	discard(x): 移除集合中的元素x，如果x不在集合中，不报错。
+		set1 = {'a','b','c'}
+		set1.add('c')  ==>{'a','b'}		
+		
+	remove(x): 移除集合中的元素x，如果x不在集合中，产生keyerror异常。
+		set1 = {'a','b','c'}
+		set1.remove('c')  ==>{'a','b'}		
+
+	clear(): 移除集合中的所有元素。
+		set1 = {'a','b','c'}
+		set1.clear() ==> {}
+		
+	pop()： 随机取出一个元素，并删除集合中的这个元素，如果集合为空，会产生keyerror异常。
+		set1 = {'a','b','c'}
+		set1.pop() ==> {'a','c'}
+		
+	copy(): 返回集合的一个副本。
+	
+	len(S): 放回集合S的元素个数。
+	
+	x in S : 判断S中的元素X，如果在S中，返回True，否则返回False
+	
+	X not in S： 判断S中的元素X，如果不在S中，返回True，否则返回False
+	
+	set(x) : 将其他类型变量x转换为集合类型。
+	
+	集合的主要应用场景：数据去重。
+	list1=[1,2,2,3,4,4]
+	set1=set(list1)  ==>{1,2,3,4}
+	list1=list(set1) ==>[1,2,3,4]
 		
 11. 代码结构
 	
