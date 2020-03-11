@@ -4,42 +4,21 @@
 
 
 {% block content %}
-<style>
 
-    input[type=text], select {
-      width: 100%;
-      padding: 12px 20px;
-      margin: 8px 0;
-      display: inline-block;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-
-    input[type=submit] {
-      width: 100%;
-      background-color: #4CAF50;
-      color: white;
-      padding: 14px 20px;
-      margin: 8px 0;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    input[type=submit]:hover {
-      background-color: #45a049;
-    }
-
-
-
-</style>
 
 <h1>命令执行</h1>
 
 <form id="loginForm" action="{% url 'saltapi:saltapicmd' %}" method="POST">
     {% csrf_token %}
-    <label for="hostnames"> 主机名或组：</label>
+    <label for="hostnames"> 服务器分组：</label>
+
+    <select class="form-control" name="group_name">
+        <option></option>
+        {% for i in group_set %}
+            <option> {{ i.group_name }} </option>
+        {% endfor %}
+    </select>
+    <label for="hostnames"> 主机名：</label>
     <input type="text" class="form-control" id="hostnames" name="hostnames" placeholder="主机名"> </br>
     <label for="commands">执行  命令：</label>
 

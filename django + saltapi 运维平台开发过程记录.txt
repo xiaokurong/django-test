@@ -91,10 +91,11 @@ tcp        0      0 192.168.56.11:45196     192.168.56.11:8000      TIME_WAIT
 3.1 验证login登陆，获取token字符串
 
 [root@ master.d]# curl -sSk https://172.20.20.70:8000/login \
->     -H 'Accept: application/x-yaml' \
->     -d username='saltapi' \
->     -d password='saltapi' \
->     -d eauth='pam'
+  -H 'Accept: application/x-yaml' \
+  -d username='saltapi' \
+  -d password='saltapi' \
+  -d eauth='pam'
+
 return:
 - eauth: pam
   expire: 1508781206.155773
@@ -110,11 +111,11 @@ return:
 3.2 通过api执行test.ping测试连通性
 
 [root@  master.d]# curl -sSk https://172.20.20.70:8000 \
->     -H 'Accept: application/x-yaml' \
->     -H 'X-Auth-Token: 097e62c6b81ad08019905f55799971a146b392a9'\
->     -d client=local \
->     -d tgt='*' \
->     -d fun=test.ping
+   -H 'Accept: application/x-yaml' \
+   -H 'X-Auth-Token: d78ea7b2fd369d407211b9ddf852ad7c58ff3a15'\
+   -d client=local \
+   -d tgt='*' \
+   -d fun=test.ping
 return:
 - xx: true
   test: true

@@ -3,29 +3,65 @@
 {% block title %} 添加数据 {% endblock %}
 {% block content %}
 
-<h2 >添加数据</h2>
-<form action="{% url 'saltapi:serveradd' %}" method="post">
+<h3 >添加数据</h3>
+<form action="{% url 'saltapi:serveradd' %}" method="post" class="form-horizontal">
     {% csrf_token %}
-    <label>Salt Name</label>
-    <input type="text" name="salt_name"> </br>
-    <label>Server Name</label>
-    <input type="text" name="server_name"> </br>
-    <label>CPU</label>
-    <input type="text" name="cpu"> </br>
-    <label>CPU内核数量</label>
-    <input type="text" name="cpu_core"> </br>
-    <label>操作系统</label>
-    <input type="text" name="system"> </br>
-    <label>IP地址</label>
-    <input type="text" name="ip_addr"> </br>
-    <label>内存</label>
-    <input type="text" name="ram"> </br>
-    <label>硬盘</label>
-    <input type="text" name="disk"> </br>
-    <label>组名</label>
-    <input type="text" name="group_id"> </br>
-    </br>
-    <button type="submit" name="submit">添加</button>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Salt Name</label>
+        <div class="col-sm-10">
+            <input type="text" name="salt_name" class="form-control"> </br>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Server Name</label>
+        <div class="col-sm-10">
+            <input type="text" name="server_name" class="form-control"> </br>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">CPU</label>
+        <div class="col-sm-10">
+            <input type="text" name="cpu" class="form-control"> </br>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">操作系统</label>
+        <div class="col-sm-10">
+            <input type="text" name="system" class="form-control"> </br>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">IP地址</label>
+        <div class="col-sm-10">
+            <input type="text" name="ip_addr" class="form-control"> </br>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">内存</label>
+        <div class="col-sm-10">
+            <input type="text" name="ram" class="form-control"> </br>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">硬盘</label>
+        <div class="col-sm-10">
+            <input type="text" name="disk" class="form-control"> </br>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">组名</label>
+        <div class="col-sm-10">
+            <input type="text" name="group_id" class="form-control"> </br>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+             <button type="submit" name="submit" class="btn btn-default">添加</button>
+        </div>
+    </div>
+
 
 </form>
 

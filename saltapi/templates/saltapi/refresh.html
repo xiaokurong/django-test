@@ -6,21 +6,21 @@
 {% block content %}
 
 <h2>新发现服务器</h2>
-
-<table class="server_info" border="1">
-    <tr>
-        <th><input type="checkbox" id="all_hosts"></th>
-        <th>Salt_Name</th>
-        <th>Server_Name</th>
-        <th>CPU</th>
-        <th>CPU内核数量</th>
-        <th>操作系统</th>
-        <th>IP地址</th>
-        <th>内存</th>
-        <th>硬盘</th>
-        <th>添加时间</th>
-        <th>组名</th>
-    </tr>
+<form action="{% url 'saltapi:refresh' %}" method="post">
+    <table class="server_info" border="1">
+        <tr>
+            <th><input type="checkbox" id="all_hosts"></th>
+            <th>Salt_Name</th>
+            <th>Server_Name</th>
+            <th>CPU</th>
+            <th>CPU内核数量</th>
+            <th>操作系统</th>
+            <th>IP地址</th>
+            <th>内存</th>
+            <th>硬盘</th>
+            <th>添加时间</th>
+            <th>组名</th>
+        </tr>
     {%  for key,child in all_grains.items %}
         <tr>
         <td><input type="checkbox"> </td>
@@ -42,7 +42,7 @@
 <button type="submit">删除</button>
 <button type="submit">添加</button>
 
-
+<button
 
 <font color="red" > {{ refresh_error }}</font>
 {% endblock %}

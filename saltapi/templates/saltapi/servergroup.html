@@ -5,7 +5,7 @@
 
 <h1>服务器分组</h1>
 
-<table class="server_info" border="1">
+<table class="table table-hover table-borderd">
     <tr>
         <th>组名</th>
         <th>分组服务器</th>
@@ -23,8 +23,8 @@
         </td>
         <td>{{ i.comment }}</td>
         <td>
-            <a href="servergroup_change/{{ i.id }}" >修改</a>
-            <a href="servergroup_del/{{ i.id }}" >删除</a>
+            <a class="btn btn-success" href="servergroup_change/{{ i.id }}" >修改</a>
+            <a class="btn btn-danger" href="servergroup_del/{{ i.id }}" >删除</a>
         </td>
         </tr>
 

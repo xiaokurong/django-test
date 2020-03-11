@@ -5,7 +5,7 @@
 
 <h2 >现有服务器信息</h2>
 
-<table class="server_info" border="1">
+<table class="table table-hover table-borderd" >
     <tr>
         <th>Salt_Name</th>
         <th>Server_Name</th>
@@ -33,8 +33,8 @@
         <td>{{ i.group_id.group_name }}
         </td>
         <td>
-            <a href="serverchange/{{ i.id }}" >编 辑</a>
-            <a href="serverdelete/{{ i.id }}">删 除</a>
+            <a class="btn btn-success" href="serverchange/{{ i.id }}" >编 辑</a>
+            <a class="btn btn-danger" href="serverdelete/{{ i.id }}">删 除</a>
         </td>
         </tr>
     {% endfor %}
@@ -48,7 +48,7 @@
 
 <h2>新发现服务器</h2>
 
-<table class="server_info" border="1">
+<table class="table table-hover table-borderd">
     <tr>
         <th>Salt_Name</th>
         <th>Server_Name</th>

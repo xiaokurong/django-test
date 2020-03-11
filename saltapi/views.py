@@ -5,7 +5,11 @@ from . import saltapi
 from .models import ServerInfo,UserInfo,UserPriv,ServerGroup, OffenCommand
 from collections import defaultdict
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
-
+from django.http.response import JsonResponse
+import json
+from django.db.models import Count
+from django.db import connection
+from django.core import serializers
 
 
 def index(request):
@@ -21,20 +25,38 @@ def saltapicmd(request):
     if request.method == 'POST':
         hostnames=request.POST.get('hostnames')
         commands=request.POST.get('commands')
+        groupname = request.POST.get('group_name')
+        if len(hostnames) == 0 and len(groupname)==0 :
+            error="未输入主机名或服务器组名"
+            return render(request,'saltapi/saltapirun.html',{'login_err': error})
+        elif len(hostnames) == 0 and len(groupname) >0:
+            salt_client = groupname
+            print(salt_client)
+        elif len(hostnames) > 0 and len(groupname) ==0:
+            salt_client = hostnames
+        else:
+            salt_client = hostnames+','+groupname
+
+
+
+
 
         try:
             sapi=saltapi.SaltAPI(url='https://172.20.20.70:8000/',username='saltapi',password='saltapi')
-            salt_client=hostnames
+            # salt_client=hostnames+','+groupname
             salt_method='cmd.run'
             salt_params = commands
             reinfos = sapi.salt_command(salt_client,salt_method,salt_params)
             OffenCommand.objects.create(command_name=commands, hostnames=hostnames,command_result=reinfos)
-            return render(request,'saltapi/saltapirun.html',{'login_err': reinfos})
+            group_set = ServerGroup.objects.all()
+            return render(request,'saltapi/saltapirun.html',{'login_err': reinfos,'group_set':group_set})
         except Exception as error:
             return render(request,'saltapi/saltapirun.html',{'login_err': error})
 
     else:
-        return render(request,'saltapi/saltapirun.html')
+        group_set = ServerGroup.objects.all()
+
+        return render(request,'saltapi/saltapirun.html',{'group_set':group_set})
 
 #查询历史命令
 def history(request):
@@ -59,18 +81,14 @@ def history(request):
     # except Exception as error:
     #     return  render(request,'saltapi/history.html',{"error": error})
 
+#查询历史命令接口
+def historyapi(request):
+    history_set = OffenCommand.objects.values('command_name').annotate(c=Count('command_name')).values('command_name',"c").order_by('-c')[:5]
+    history = {}
+    history['data']=list(history_set)
+    return JsonResponse(history)
 
 
-#查询服务器信息
-def server(request):
-
-    try:
-        server_set = ServerInfo.objects.all()
-        group_set = ServerGroup.objects.all()
-        return render(request,'saltapi/server.html',{'server_set': server_set,'group_set': group_set})
-
-    except ServerInfo.DoesNotExist:
-        render(request,'saltapi/server.html',{'server_set': server_set, })
 
 
 #查询服务器分组信息
@@ -82,6 +100,17 @@ def servergroup(request):
     except Exception as error:
         return render(request,'saltapi/servergroup.html',{'error': error})
 
+#查询服务器分组接口
+def servergroupapi(request):
+    data={}
+    try:
+        server_group_set = ServerGroup.objects.annotate(c=Count('serverinfo__id')).values('group_name','c')
+        # data['list']=json.loads(serializers.serialize('json',server_group_set))
+        # return JsonResponse(data)
+        data['list']=list(server_group_set)
+        return JsonResponse(data)
+    except Exception as error:
+        return HttpResponse(json.dumps(error), content_type='application/json')
 #修改服务器分组
 def servergroup_change(request,group_id):
     if request.method == 'GET':
@@ -116,6 +145,30 @@ def servergroup_del(request,group_id):
 def other(request):
     return render(request,'saltapi/other.html',)
 
+#查询服务器信息
+def server(request):
+
+    try:
+        server_set = ServerInfo.objects.all()
+        group_set = ServerGroup.objects.all()
+        return render(request,'saltapi/server.html',{'server_set': server_set,'group_set': group_set})
+
+    except ServerInfo.DoesNotExist:
+        return  render(request,'saltapi/server.html',{'server_set': server_set, })
+
+#查询服务器信息接口
+def serverapi(request):
+    cursor = connection.cursor()
+    cursor.execute("select (SELECT SUM(bb.count) from (select DATE_FORMAT(add_date,'%Y%m%d') days, count(*) count from saltapi_serverinfo   group by  days ) bb WHERE aa.days >=bb.days ) totalcount,aa.count daycount, aa.days    from (select DATE_FORMAT(add_date,'%Y%m%d') days, count(*) count from saltapi_serverinfo   group by  days  ) aa  ")
+    rows= cursor.fetchall()
+    newrow=[]
+    jsonrow={}
+    for i in rows:
+        newrow.append(i)
+    jsonrow['data']=newrow
+    return JsonResponse(jsonrow)
+
+
 #新增服务器信息
 def serveradd(request):
     if request.method == 'POST':
@@ -138,40 +191,58 @@ def serveradd(request):
 
 #刷新salt-stack所有客户端
 def refresh(request):
-    try:
-        gsapi = saltapi.SaltAPI(url='https://172.20.20.70:8000/', username='saltapi', password='saltapi')
-        gsalt_client = '*'
-        gsalt_method = 'grains.items'
-        all_list= defaultdict(dict)
+    if request.method == 'GET':
+    #     # return render(request, 'saltapi/refresh.html')
+    #
 
-        all_grains = gsapi.salt_command(gsalt_client, gsalt_method)
 
-    #     return render(request, 'saltapi/refresh.html', {'all_grains': all_grains,})
-    # except Exception as error:
-    #     render(request,'saltapi/refresh.html',{'refresh': error})
-    #     print(all_grains)
+        try:
+            gsapi = saltapi.SaltAPI(url='https://172.20.20.70:8000/', username='saltapi', password='saltapi')
+            gsalt_client = '*'
+            gsalt_method = 'grains.items'
+            all_list= defaultdict(dict)
 
-        # for i in all_grains.keys():
-        #     all_list[i]['salt_name']= all_grains[i]['id']
-        #     all_list[i]['server_name'] = all_grains[i]['nodename']
-        #     all_list[i]['cpu'] = all_grains[i]['cpu_model']
-        #     all_list[i]['cpu_core'] = all_grains[i]['num_cpus']
-        #     all_list[i]['system'] = all_grains[i]['os'] + ' ' + all_grains[i]['osrelease']
-        #     all_list[i]['ip_addr'] = str(all_grains[i]['ipv4']).replace("'127.0.0.1',","")
-        #     all_list[i]['ram'] = all_grains[i]['mem_total']
-        #     # disk_all=gsapi.salt_command(all_grains[i]['id'],'disk.usage')
-        #     # all_disk=0
-        #     # for j in disk_all.keys():
-        #     #     all_disk += disk_all[j]['available']
-        #     #
-        #     # all_list[i]['disk']=all_disk
-        # print("************************************************")
-        # print(all_list)
-        # print("************************************************")
-        return render(request, 'saltapi/refresh.html', {'all_grains': all_grains, })
+            all_grains = gsapi.salt_command(gsalt_client, gsalt_method)
 
-    except Exception as error:
-        return render(request, 'saltapi/refresh.html', {'refresh_error': error})
+        #     return render(request, 'saltapi/refresh.html', {'all_grains': all_grains,})
+        # except Exception as error:
+        #     render(request,'saltapi/refresh.html',{'refresh': error})
+        #     print(all_grains)
+
+            # for i in all_grains.keys():
+            #     all_list[i]['salt_name']= all_grains[i]['id']
+            #     all_list[i]['server_name'] = all_grains[i]['nodename']
+            #     all_list[i]['cpu'] = all_grains[i]['cpu_model']
+            #     all_list[i]['cpu_core'] = all_grains[i]['num_cpus']
+            #     all_list[i]['system'] = all_grains[i]['os'] + ' ' + all_grains[i]['osrelease']
+            #     all_list[i]['ip_addr'] = str(all_grains[i]['ipv4']).replace("'127.0.0.1',","")
+            #     all_list[i]['ram'] = all_grains[i]['mem_total']
+            #     # disk_all=gsapi.salt_command(all_grains[i]['id'],'disk.usage')
+            #     # all_disk=0
+            #     # for j in disk_all.keys():
+            #     #     all_disk += disk_all[j]['available']
+            #     #
+            #     # all_list[i]['disk']=all_disk
+            # print("************************************************")
+            # print(all_list)
+            # print("************************************************")
+            return render(request, 'saltapi/refresh.html', {'all_grains': all_grains, })
+
+        except Exception as error:
+            return render(request, 'saltapi/refresh.html', {'refresh_error': error})
+    else:
+
+        salt_name = request.POST['salt_name']
+        server_name = request.POST['server_name']
+        cpu = request.POST['cpu']
+        cpu_core = request.POST['cpu_core']
+        system = request.POST['system']
+        ip_addr = request.POST['ip_addr']
+        ram = request.POST['ram']
+        disk = request.POST['disk']
+
+        ServerInfo.objects.create(salt_name=salt_name, server_name=server_name, cpu=cpu, cpu_core=cpu_core,system=system, ip_addr=ip_addr, ram=ram, disk=disk)
+
 
 #修改服务器信息
 def serverchange(request, server_id):
@@ -295,6 +366,43 @@ def user_add(request):
     else:
         userpriv = UserPriv.objects.all()
         return render(request,'saltapi/user_add.html',{'userpriv': userpriv})
+
+def test(request):
+    # data={
+    #     'name': 'vitor',
+    #     'location': 'finland',
+    #     'is_active': True,
+    #     'count': 28
+    # }
+    # return JsonResponse(data)
+    # name_dict = {'twz': 'Love python and Django', 'zqxt': 'I am teaching Django'}
+    name_dict = {
+    "data_pie" : [
+    {"value":235, "name":"视频广告"},
+    {"value":274, "name":"联盟广告"},
+    {"value":310, "name":"邮件营销"},
+    {"value":335, "name":"直接访问"},
+    {"value":400, "name":"搜索引擎"}
+    ]
+}
+    return HttpResponse(json.dumps(name_dict), content_type='application/json')
+
+def test1(request):
+    return render(request,'saltapi/test1.html')
+
+def testdata(request):
+    for i in range(20):
+        salt_name = 'test'+str(i)
+        server_name = 'test'+str(i)
+        cpu = 'i5'
+        cpu_core = 4
+        system = 'CentOS6'
+        ip_addr= '172.20.20.21'
+        ram = '400'
+        disk = '200'
+        ServerInfo.objects.create(salt_name=salt_name, server_name=server_name, cpu=cpu, cpu_core=cpu_core,system=system, ip_addr=ip_addr, ram=ram, disk=disk)
+    return HttpResponse('添加成功！')
+
 
 
 

@@ -5,8 +5,9 @@
 
 <h1>历史记录</h1>
 
-<table class="server_info" border="1">
+<table class="table table-hover table-bordered" >
     <tr>
+        <th>#</th>
         <th>主机名或地址组</th>
         <th>执行命令</th>
         <th>执行时间</th>
@@ -15,6 +16,7 @@
     </tr>
     {% for i in page_history %}
         <tr>
+            <td>{{ i.index }}</td>
         <td>{{ i.hostnames }}</td>
         <td>{{ i.command_name }}</td>
         <td>{{ i.exec_time }}</td>

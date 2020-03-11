@@ -27,6 +27,12 @@ urlpatterns =[
     path('userpriv_add',views.userpriv_add,name='userpriv_add'),
     path('userpriv_del/<int:priv_id>',views.userpriv_del,name='userpriv_del'),
     path('userpriv_change/<int:priv_id>',views.userpriv_change,name='userpriv_change'),
+    path('test',views.test,name='test'),
+    path('test1',views.test1,name='test1'),
+    path('servergroupapi',views.servergroupapi,name='servergroupapi'),
+    path('historyapi',views.historyapi,name='historyapi'),
+    path('serverapi',views.serverapi,name='serverapi'),
+    # path('testdata',views.testdata,name='testdata'),
 
 ]
 

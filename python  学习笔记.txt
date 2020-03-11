@@ -748,3 +748,22 @@ python  学习笔记
 	pyinstaller -w  ##编译后的程序没有黑色的命令行窗口
 	pyinstaller -i  icon.ico  ##将编译后的程序使用icon.ico这个图标。
 	
+21. pygame 库
+	pygame四个基本步骤
+	1). 引入pygame和sys库
+	2). 初始化init()及设置
+	3). 无限循环-->获取事件并逐类响应
+	4). 无限循环-->刷新屏幕
+	
+	pygame 常用函数
+		屏幕尺寸和模式
+		pygame.display.set_mode()  ##设置相关屏幕模式和尺寸
+		pygame.display.Info()  ##获取屏幕相关信息，大小，高度，宽带等
+		窗口标题和图标
+		pygame.display.set_caption()  ##设置窗口标题
+		pygame.display.set_icon()  ##设置窗口图标
+		pygame.display.get_caption()  ##获取窗口标题
+		窗口感知和刷新
+		pygame.display.get_active()  ##设置窗口是否活动或激活状态
+		pygame.display.flip()  ##刷新全部屏幕，刷新慢
+		pygame.display.update()  ##刷新屏幕，仅刷新变动区域，刷新快
